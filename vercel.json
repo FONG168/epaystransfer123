@@ -1,51 +1,40 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
     },
     {
-      "src": "/dashboard",
-      "dest": "/dashboard.html"
+      "source": "/tasks",
+      "destination": "/tasks.html"
     },
     {
-      "src": "/tasks",
-      "dest": "/tasks.html"
+      "source": "/market",
+      "destination": "/market.html"
     },
     {
-      "src": "/market",
-      "dest": "/market.html"
+      "source": "/history",
+      "destination": "/history.html"
     },
     {
-      "src": "/history",
-      "dest": "/history.html"
+      "source": "/profile",
+      "destination": "/profile.html"
     },
     {
-      "src": "/profile",
-      "dest": "/profile.html"
+      "source": "/business-account",
+      "destination": "/business-account.html"
     },
     {
-      "src": "/business-account",
-      "dest": "/business-account.html"
+      "source": "/send-money",
+      "destination": "/send-money.html"
     },
     {
-      "src": "/send-money",
-      "dest": "/send-money.html"
+      "source": "/exchange-rates",
+      "destination": "/exchange-rates.html"
     },
     {
-      "src": "/exchange-rates",
-      "dest": "/exchange-rates.html"
-    },
-    {
-      "src": "/about",
-      "dest": "/about.html"
+      "source": "/about",
+      "destination": "/about.html"
     }
   ],
   "headers": [
