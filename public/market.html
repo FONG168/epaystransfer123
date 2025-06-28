@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Market - ePay's Member</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-900 to-purple-900 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4 py-3">
+            <div class="flex justify-between items-center">
+                <button onclick="goBack()" class="flex items-center text-white hover:text-blue-300 min-w-0 p-2 -ml-2 touch-manipulation">
+                    <i class="fas fa-arrow-left mr-1 sm:mr-2 text-sm sm:text-base"></i>
+                    <span class="hidden xs:inline sm:inline text-sm sm:text-base">Back</span>
+                </button>
+                <h1 class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent text-center flex-1 mx-2 sm:mx-4 truncate px-2">
+                    Currency Market
+                </h1>
+                <button onclick="toggleAutoRefresh()" id="refresh-btn" class="text-green-400 hover:text-green-300 min-w-0 p-2 -mr-2 touch-manipulation">
+                    <i class="fas fa-sync-alt text-sm sm:text-base" id="refresh-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-16 sm:pt-20 pb-16 sm:pb-20 px-2 sm:px-4 min-h-screen">
+        <div class="max-w-4xl mx-auto">
+            <!-- Market Summary & Stats -->
+            <section class="mb-6 sm:mb-8">
+                <div class="glass-card shadow-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10 mb-4">
+                    <div class="flex flex-col gap-4">
+                        <div class="text-center sm:text-left">
+                            <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-1 sm:mb-2 flex items-center justify-center sm:justify-start gap-2">
+                                <i class="fas fa-chart-bar text-blue-400 text-sm sm:text-base"></i> 
+                                <span>Market Overview</span>
+                            </h2>
+                            <div class="text-xs sm:text-sm text-gray-300 px-2 sm:px-0">
+                                Live global money transfer activity, updated in real time.
+                                <span id="last-update" class="block text-xs text-gray-400 mt-1"></span>
+                            </div>
+                            
+                            <!-- Live Time and Date Display -->
+                            <div class="mt-3 sm:mt-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-lg p-3 border border-white/10">
+                                <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-4">
+                                    <div class="text-center sm:text-left">
+                                        <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                                            <i class="fas fa-clock text-blue-400 text-sm"></i>
+                                            <span class="text-xs sm:text-sm font-medium text-gray-300">Live Time</span>
+                                        </div>
+                                        <div id="live-time" class="text-lg sm:text-xl font-bold text-green-400 font-mono">--:--:--</div>
+                                    </div>
+                                    <div class="text-center sm:text-right">
+                                        <div class="flex items-center justify-center sm:justify-end gap-2 mb-1">
+                                            <i class="fas fa-calendar text-purple-400 text-sm"></i>
+                                            <span class="text-xs sm:text-sm font-medium text-gray-300">Today's Date</span>
+                                        </div>
+                                        <div id="live-date" class="text-sm sm:text-base font-semibold text-blue-300">-- --- ----</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mt-4 w-full h-1.5 sm:h-2 bg-gray-800/60 rounded-full overflow-hidden">
+                        <div id="market-progress-bar" class="h-full bg-gradient-to-r from-green-400 to-blue-400 transition-all duration-700" style="width: 0%"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- Currency Rate Ticker -->
+            <section class="mb-4">
+                <div id="rate-ticker" class="w-full overflow-hidden bg-gray-800/80 rounded-lg sm:rounded-xl shadow-lg border border-white/10 mb-2">
+                    <div class="ticker-inner flex items-center h-8 sm:h-10 animate-ticker whitespace-nowrap" style="will-change: transform;">
+                        <!-- Rates will be populated here -->
+                    </div>
+                </div>
+            </section>
+            <!-- Live Transaction Queue -->
+            <section class="mb-8">
+                <div class="glass-card shadow-2xl rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10">
+                    <h2 class="text-lg sm:text-xl lg:text-2xl font-extrabold mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+                        <i class="fas fa-bolt text-yellow-400 text-sm sm:text-base"></i> 
+                        <span>Live Transfer Queue</span>
+                    </h2>
+                    <div id="transaction-queue" class="space-y-2 sm:space-y-4 pr-1 sm:pr-2 max-h-96 sm:max-h-none overflow-y-auto">
+                        <!-- Transactions will be populated here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-md border-t border-gray-700 safe-area-bottom">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4">
+            <div class="flex justify-around py-2 sm:py-3">
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0" onclick="goToPage('dashboard.html')">
+                    <i class="fas fa-home text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Home</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0" onclick="goToPage('tasks.html')">
+                    <i class="fas fa-exchange-alt text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Tasks</span>
+                </button>
+                <button class="nav-item active flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0">
+                    <i class="fas fa-chart-line text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Market</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0" onclick="goToPage('history.html')">
+                    <i class="fas fa-history text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">History</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0" onclick="goToPage('profile.html')">
+                    <i class="fas fa-user text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script src="market.js"></script>
+</body>
+</html>

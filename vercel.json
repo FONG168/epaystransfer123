@@ -1,61 +1,51 @@
 {
-  "buildCommand": "echo 'Static site - no build required'",
-  "outputDirectory": "./",
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/dashboard",
-      "destination": "/dashboard.html"
-    },
-    {
-      "source": "/tasks",
-      "destination": "/tasks.html"
-    },
-    {
-      "source": "/market",
-      "destination": "/market.html"
-    },
-    {
-      "source": "/history",
-      "destination": "/history.html"
-    },
-    {
-      "source": "/profile",
-      "destination": "/profile.html"
-    },
-    {
-      "source": "/business-account",
-      "destination": "/business-account.html"
-    },
-    {
-      "source": "/send-money",
-      "destination": "/send-money.html"
-    },
-    {
-      "source": "/exchange-rates",
-      "destination": "/exchange-rates.html"
-    },
-    {
-      "source": "/about",
-      "destination": "/about.html"
+      "src": "**",
+      "use": "@vercel/static"
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
+      "src": "/dashboard",
+      "dest": "/dashboard.html"
+    },
+    {
+      "src": "/tasks",
+      "dest": "/tasks.html"
+    },
+    {
+      "src": "/market",
+      "dest": "/market.html"
+    },
+    {
+      "src": "/history",
+      "dest": "/history.html"
+    },
+    {
+      "src": "/profile",
+      "dest": "/profile.html"
+    },
+    {
+      "src": "/business-account",
+      "dest": "/business-account.html"
+    },
+    {
+      "src": "/send-money",
+      "dest": "/send-money.html"
+    },
+    {
+      "src": "/exchange-rates",
+      "dest": "/exchange-rates.html"
+    },
+    {
+      "src": "/about",
+      "dest": "/about.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
