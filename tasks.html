@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <title>Task Completion - ePay's Member</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '375px',
+                    },
+                    spacing: {
+                        'safe-top': 'env(safe-area-inset-top)',
+                        'safe-bottom': 'env(safe-area-inset-bottom)',
+                        'safe-left': 'env(safe-area-inset-left)',
+                        'safe-right': 'env(safe-area-inset-right)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <style>
+        /* Enhanced mobile responsiveness */
+        :root {
+            --vh: 1vh;
+        }
+        
+        .min-h-screen-ios {
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
+            min-height: -webkit-fill-available;
+        }
+        
+        .safe-area-inset {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* Prevent zoom on input focus for iOS */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        
+        /* Enhanced touch targets */
+        @media (max-width: 480px) {
+            button, input, select {
+                min-height: 44px;
+            }
+        }
+        
+        /* Improved modal scrolling */
+        .modal-scroll {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        
+        /* Better backdrop blur support */
+        @supports (backdrop-filter: blur(20px)) {
+            .backdrop-blur-enhanced {
+                backdrop-filter: blur(20px) saturate(1.2);
+            }
+        }
+        
+        /* Custom scrollbar for modal */
+        .modal-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+        
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive modal sizing */
+        @media (max-width: 375px) {
+            .modal-content {
+                margin: 8px;
+                max-height: calc(100vh - 16px);
+            }
+        }
+        
+        @media (min-width: 376px) and (max-width: 480px) {
+            .modal-content {
+                margin: 12px;
+                max-height: calc(100vh - 24px);
+            }
+        }
+        
+        /* Button improvements for mobile */
+        @media (max-width: 480px) {
+            button {
+                transition: all 0.2s ease;
+            }
+            
+            button:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* Input field improvements */
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Withdrawal form specific styling */
+        #withdrawal-form input, #withdrawal-form select {
+            background: rgba(255, 255, 255, 0.9) !important;
+            color: #1f2937 !important;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        }
+        
+        #withdrawal-form input::placeholder {
+            color: #6b7280 !important;
+        }
+        
+        /* Enhanced currency search input styling with glass effect */
+        #withdraw-currency {
+            backdrop-filter: blur(20px) saturate(1.2) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(1.2) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Currency search dropdown styling */
+        #currency-dropdown {
+            backdrop-filter: blur(25px) saturate(1.3) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(1.3) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)) !important;
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        /* Currency dropdown options */
+        .currency-option {
+            padding: 12px 16px !important;
+            color: #1f2937 !important;
+            font-weight: 600 !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5) !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+        }
+        
+        .currency-option:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.15)) !important;
+            color: #1e40af !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            transform: translateX(2px) !important;
+        }
+        
+        .currency-option:last-child {
+            border-bottom: none !important;
+        }
+        
+        .currency-option.highlighted {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2)) !important;
+            color: #1e40af !important;
+            font-weight: 700 !important;
+        }
+        
+        /* Mobile responsive currency search */
+        @media (max-width: 767px) {
+            #withdraw-currency {
+                font-size: 14px !important;
+                padding: 16px 40px 16px 16px !important;
+                min-height: 52px !important;
+                line-height: 1.2 !important;
+                letter-spacing: 0.01em !important;
+            }
+            
+            .currency-option {
+                font-size: 14px !important;
+                padding: 14px 18px !important;
+                line-height: 1.3 !important;
+                min-height: 48px !important;
+            }
+            
+            #currency-dropdown {
+                max-height: 200px !important;
+            }
+        }
+        
+        @media (max-width: 479px) {
+            #withdraw-currency {
+                font-size: 15px !important;
+                padding: 18px 44px 18px 18px !important;
+                min-height: 56px !important;
+                border-radius: 14px !important;
+            }
+            
+            .currency-option {
+                font-size: 15px !important;
+                padding: 16px 20px !important;
+                min-height: 52px !important;
+                line-height: 1.4 !important;
+            }
+            
+            #currency-dropdown {
+                border-radius: 14px !important;
+                max-height: 180px !important;
+            }
+        }
+        
+        @media (max-width: 374px) {
+            #withdraw-currency {
+                font-size: 16px !important;
+                padding: 20px 48px 20px 20px !important;
+                min-height: 60px !important;
+                border-radius: 16px !important;
+            }
+            
+            .currency-option {
+                font-size: 16px !important;
+                padding: 18px 22px !important;
+                min-height: 56px !important;
+                line-height: 1.5 !important;
+                font-weight: 700 !important;
+            }
+            
+            #currency-dropdown {
+                border-radius: 16px !important;
+                max-height: 160px !important;
+            }
+        }
+        
+        /* Enhanced focus state for currency search */
+        #withdraw-currency:focus {
+            border-color: rgba(59, 130, 246, 0.7) !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3), 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)) !important;
+            transform: scale(1.02) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* Search icon styling */
+        #withdraw-currency + i {
+            color: #6b7280 !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        #withdraw-currency:focus + i {
+            color: #3b82f6 !important;
+            transform: translate(-50%, -50%) scale(1.1) !important;
+        }
+        
+        /* Scrollbar for currency dropdown */
+        #currency-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #currency-dropdown::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+        
+        #currency-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 3px;
+        }
+        
+        #currency-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.6);
+        }
+        
+        /* Mobile-first responsive currency dropdown */
+        @media (max-width: 767px) {
+            #withdraw-currency {
+                font-size: 14px !important;
+                padding: 16px 40px 16px 16px !important;
+                min-height: 52px !important;
+                line-height: 1.2 !important;
+                letter-spacing: 0.01em !important;
+                background-size: 20px !important;
+                background-position: right 16px center !important;
+            }
+            
+            /* Mobile currency options styling */
+            #withdraw-currency option {
+                font-size: 14px !important;
+                padding: 16px 20px !important;
+                line-height: 1.3 !important;
+                min-height: 50px !important;
+                background: rgba(248, 250, 252, 0.98) !important;
+                backdrop-filter: blur(15px) !important;
+                -webkit-backdrop-filter: blur(15px) !important;
+                font-weight: 600 !important;
+                border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
+                color: #1f2937 !important;
+            }
+        }
+        
+        @media (max-width: 479px) {
+            #withdraw-currency {
+                font-size: 15px !important;
+                padding: 18px 44px 18px 18px !important;
+                min-height: 56px !important;
+                border-radius: 14px !important;
+                background-size: 22px !important;
+                background-position: right 18px center !important;
+            }
+            
+            #withdraw-currency option {
+                font-size: 15px !important;
+                padding: 18px 22px !important;
+                min-height: 54px !important;
+                line-height: 1.4 !important;
+            }
+        }
+        
+        @media (max-width: 374px) {
+            #withdraw-currency {
+                font-size: 16px !important;
+                padding: 20px 48px 20px 20px !important;
+                min-height: 60px !important;
+                border-radius: 16px !important;
+                background-size: 24px !important;
+                background-position: right 20px center !important;
+            }
+            
+            #withdraw-currency option {
+                font-size: 16px !important;
+                padding: 20px 24px !important;
+                min-height: 58px !important;
+                line-height: 1.5 !important;
+                font-weight: 700 !important;
+            }
+        }
+        
+        /* Tablet and larger screens */
+        @media (min-width: 768px) {
+            #withdraw-currency {
+                font-size: 17px !important;
+                padding: 14px 40px 14px 18px !important;
+                min-height: 48px !important;
+                background-size: 18px !important;
+                background-position: right 16px center !important;
+            }
+            
+            #withdraw-currency option {
+                font-size: 16px !important;
+                padding: 14px 18px !important;
+                min-height: 46px !important;
+            }
+        }
+        
+        /* Currency dropdown options with enhanced glass blur background */
+        #withdraw-currency option {
+            background: rgba(248, 250, 252, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            color: #1f2937 !important;
+            padding: 12px 16px !important;
+            font-weight: 600 !important;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        #withdraw-currency option:hover {
+            background: rgba(59, 130, 246, 0.15) !important;
+            color: #1e40af !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+        }
+        
+        #withdraw-currency option:checked,
+        #withdraw-currency option:selected {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.25)) !important;
+            color: #1e40af !important;
+            font-weight: 700 !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+        }
+        
+        /* Enhanced focus state for currency dropdown */
+        #withdraw-currency:focus {
+            border-color: rgba(59, 130, 246, 0.7) !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3), 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)) !important;
+            transform: scale(1.02) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* Dropdown arrow styling for better mobile UX */
+        #withdraw-currency {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234b5563' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+        }
+        
+        /* iOS specific fixes */
+        @supports (-webkit-appearance: none) {
+            #withdraw-currency {
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                border-radius: 12px !important;
+            }
+            
+            @media (max-width: 479px) {
+                #withdraw-currency {
+                    border-radius: 14px !important;
+                }
+            }
+            
+            @media (max-width: 374px) {
+                #withdraw-currency {
+                    border-radius: 16px !important;
+                }
+            }
+        }
+        
+        /* Android specific fixes */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            #withdraw-currency {
+                background-position: calc(100% - 16px) center !important;
+            }
+            
+            @media (max-width: 479px) {
+                #withdraw-currency {
+                    background-position: calc(100% - 18px) center !important;
+                }
+            }
+            
+            @media (max-width: 374px) {
+                #withdraw-currency {
+                    background-position: calc(100% - 20px) center !important;
+                }
+            }
+        }
+        
+        /* Other form elements to maintain consistency */
+        #withdrawal-form select option {
+            background: rgba(248, 250, 252, 0.95) !important;
+            color: #1f2937 !important;
+            font-weight: 600 !important;
+        }
+        
+        /* Focus states for withdrawal form */
+        #withdrawal-form input:focus, #withdrawal-form select:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+        }
+        
+        /* Enhanced typography for withdrawal modal */
+        #withdrawal-modal {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdrawal-modal h3 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdrawal-modal label {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdrawal-modal input, #withdrawal-modal select {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdrawal-modal button {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdraw-total {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+        }
+        
+        /* Additional styling for dynamic content */
+        #withdraw-details {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+        
+        #withdraw-details .text-green-400,
+        #withdraw-details .text-red-400 {
+            font-weight: 700;
+        }
+        
+        #withdraw-details .text-white {
+            font-weight: 600;
+        }
+        
+        #withdraw-details .text-gray-400 {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-900 to-purple-900 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-3">
+            <div class="flex justify-between items-center">
+                <button onclick="goBack()" class="flex items-center text-white hover:text-blue-300 transition-colors min-h-10 min-w-10 touch-manipulation">
+                    <i class="fas fa-arrow-left mr-1 sm:mr-2"></i>
+                    <span class="hidden xs:inline">Back</span>
+                </button>
+                <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent text-center flex-1 mx-4">
+                    Task Completion
+                </h1>
+                <div class="text-right">
+                    <div class="text-xs sm:text-sm text-gray-300">Balance</div>
+                    <div class="text-sm sm:text-lg font-bold text-green-400" id="balance-display">$0.00</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-16 sm:pt-20 pb-16 sm:pb-20 px-3 sm:px-4 min-h-screen">
+        <div class="max-w-4xl mx-auto">
+            <!-- Progress Section -->
+            <section class="mb-6 sm:mb-8">
+                <div class="glass-card bg-gradient-to-r from-green-600/20 to-blue-600/20 backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-white/10">
+                    <!-- Mobile: 2x2 grid, Large screens: 1x4 grid -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="text-center p-4 sm:p-5 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400 mb-2" id="tasks-completed">0</div>
+                            <div class="text-sm sm:text-base text-gray-300 font-medium">Completed</div>
+                        </div>
+                        <div class="text-center p-4 sm:p-5 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-400 mb-2" id="tasks-remaining">0</div>
+                            <div class="text-sm sm:text-base text-gray-300 font-medium">Remaining</div>
+                        </div>
+                        <div class="text-center p-4 sm:p-5 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-400 mb-2" id="earned-today">$0.00</div>
+                            <div class="text-sm sm:text-base text-gray-300 font-medium">Earned</div>
+                        </div>
+                        <div class="text-center p-4 sm:p-5 bg-white/5 rounded-xl backdrop-blur-sm border border-white/10">
+                            <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400 mb-2" id="commission-rate">3%</div>
+                            <div class="text-sm sm:text-base text-gray-300 font-medium">Commission</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar Section -->
+                    <div class="mt-6 sm:mt-8">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="daily-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="text-sm sm:text-base text-gray-300 mt-3 text-center font-medium" id="progress-text">0% Complete</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Task -->
+            <section class="mb-6 sm:mb-8">
+                <div class="glass-card backdrop-blur-md rounded-xl sm:rounded-2xl p-5 sm:p-6 border border-white/10" id="current-task">
+                    <!-- Task content will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-md border-t border-gray-700 safe-area-bottom">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4">
+            <div class="flex justify-around py-1 sm:py-2">
+                <button class="nav-item flex flex-col items-center py-2 px-2 sm:px-3 min-h-12 sm:min-h-14 touch-manipulation transition-all duration-200" onclick="goToPage('dashboard.html')">
+                    <i class="fas fa-home text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Home</span>
+                </button>
+                <button class="nav-item active flex flex-col items-center py-2 px-2 sm:px-3 min-h-12 sm:min-h-14 touch-manipulation transition-all duration-200">
+                    <i class="fas fa-exchange-alt text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Tasks</span>
+                </button>
+                <button class="nav-item flex flex-col items-center py-2 px-2 sm:px-3 min-h-12 sm:min-h-14 touch-manipulation transition-all duration-200" onclick="goToPage('market.html')">
+                    <i class="fas fa-chart-line text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Market</span>
+                </button>
+                <button class="nav-item flex flex-col items-center py-2 px-2 sm:px-3 min-h-12 sm:min-h-14 touch-manipulation transition-all duration-200" onclick="goToPage('history.html')">
+                    <i class="fas fa-history text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">History</span>
+                </button>
+                <button class="nav-item flex flex-col items-center py-2 px-2 sm:px-3 min-h-12 sm:min-h-14 touch-manipulation transition-all duration-200" onclick="goToPage('profile.html')">
+                    <i class="fas fa-user text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Task Completion Modal -->
+    <div id="completion-modal" class="fixed inset-0 bg-gradient-to-br from-black/30 via-gray-900/20 to-black/30 backdrop-blur-xl z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-3 sm:p-4">
+            <div class="relative">
+                <!-- Background glow effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 via-blue-500/20 to-purple-500/20 rounded-xl sm:rounded-2xl blur-xl transform scale-110"></div>
+                
+                <!-- Main modal -->
+                <div class="relative glass-card bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-2xl rounded-xl sm:rounded-2xl max-w-sm sm:max-w-md w-full border border-white/30 shadow-2xl">
+                    <div class="p-5 sm:p-6 text-center">
+                        <div class="relative w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-5">
+                            <!-- Glow ring -->
+                            <div class="absolute inset-0 bg-green-500/30 rounded-full blur-lg animate-pulse"></div>
+                            <!-- Main icon -->
+                            <div class="relative w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-xl">
+                                <i class="fas fa-check text-white text-xl sm:text-2xl"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl sm:text-2xl font-bold mb-3 text-white bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">Task Completed!</h3>
+                        <p class="text-gray-100 mb-4 sm:mb-5 text-sm sm:text-base" id="completion-message">Congratulations on completing the task!</p>
+                        
+                        <!-- Earnings Summary -->
+                        <div class="relative bg-gradient-to-br from-white/15 via-white/10 to-white/15 backdrop-blur-lg rounded-xl p-4 sm:p-5 mb-4 sm:mb-5 space-y-3 border border-white/20 shadow-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-100 text-sm sm:text-base font-medium">Transfer Amount:</span>
+                                <span class="text-green-300 font-bold text-base sm:text-lg drop-shadow-lg" id="transfer-amount">$0.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-100 text-sm sm:text-base font-medium">Commission Earned:</span>
+                                <span class="text-green-300 font-bold text-base sm:text-lg drop-shadow-lg" id="commission-earned">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="space-y-3">
+                            <button onclick="loadNextTask()" class="relative w-full py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl border-0 shadow-xl transform transition-all duration-200 hover:scale-105 hover:shadow-2xl">
+                                <i class="fas fa-arrow-right mr-2"></i>
+                                Continue to Next Task
+                            </button>
+                            <button id="withdraw-btn" class="relative w-full bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 hover:from-purple-600 hover:via-blue-600 hover:to-indigo-600 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation rounded-xl border-0 shadow-xl transform transition-all duration-200 hover:scale-105 hover:shadow-2xl">
+                                <i class="fas fa-wallet mr-2"></i>
+                                Withdraw Earnings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div id="withdrawal-modal" class="fixed inset-0 bg-gradient-to-br from-black/30 via-gray-900/20 to-black/30 backdrop-blur-xl backdrop-blur-enhanced z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen min-h-screen-ios p-2 xs:p-3 sm:p-4 safe-area-inset">
+            <div class="relative w-full max-w-xs xs:max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
+                <!-- Background glow effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-indigo-500/20 rounded-xl sm:rounded-2xl blur-xl transform scale-110"></div>
+                
+                <!-- Main modal -->
+                <div class="relative glass-card bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-2xl backdrop-blur-enhanced rounded-xl sm:rounded-2xl w-full border border-white/30 shadow-2xl max-h-[95vh] xs:max-h-[90vh] sm:max-h-[85vh] overflow-y-auto modal-scroll">
+                    <div class="p-3 xs:p-4 sm:p-5 md:p-6 text-center">
+                        <div class="relative w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-2 xs:mb-3 sm:mb-4">
+                            <!-- Glow ring -->
+                            <div class="absolute inset-0 bg-blue-500/30 rounded-full blur-lg animate-pulse"></div>
+                            <!-- Main icon -->
+                            <div class="relative w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-xl">
+                                <i class="fas fa-wallet text-white text-sm xs:text-base sm:text-lg md:text-xl"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-base xs:text-lg sm:text-xl md:text-2xl font-black mb-1 xs:mb-2 sm:mb-3 text-white bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent leading-tight tracking-wide">Withdraw Earnings</h3>
+                        <div id="withdraw-total" class="mb-2 xs:mb-3 sm:mb-4 text-sm xs:text-base sm:text-lg md:text-xl font-black text-green-300 drop-shadow-lg tracking-wide">Total Available: $0.00</div>
+                        
+                        <form id="withdrawal-form" class="space-y-2 xs:space-y-3 sm:space-y-4">
+                            <div>
+                                <label class="block text-left mb-1 xs:mb-1.5 text-xs xs:text-sm sm:text-base text-gray-100 font-bold tracking-wide">Amount</label>
+                                <input id="withdraw-amount" name="withdraw-amount" type="number" min="1" step="0.01" class="w-full px-3 xs:px-4 py-2.5 xs:py-3 sm:py-3.5 rounded-lg xs:rounded-xl bg-gradient-to-br from-white/90 via-white/85 to-white/90 backdrop-blur-lg text-gray-900 border border-white/40 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 text-sm xs:text-base sm:text-lg touch-manipulation shadow-lg placeholder-gray-500 min-h-[44px] xs:min-h-[48px] font-semibold tracking-wide" required placeholder="Enter amount" />
+                            </div>
+                            <div>
+                                <label class="block text-left mb-1 xs:mb-1.5 text-xs xs:text-sm sm:text-base text-gray-100 font-bold tracking-wide">Payment Method</label>
+                                <select id="withdraw-method" name="withdraw-method" class="w-full px-3 xs:px-4 py-2.5 xs:py-3 sm:py-3.5 rounded-lg xs:rounded-xl bg-gradient-to-br from-white/90 via-white/85 to-white/90 backdrop-blur-lg text-gray-900 border border-white/40 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 text-sm xs:text-base sm:text-lg touch-manipulation shadow-lg min-h-[44px] xs:min-h-[48px] font-semibold tracking-wide" required>
+                                    <option value="" class="bg-gray-100 text-gray-900">Select Method</option>
+                                    <option value="bank" class="bg-gray-100 text-gray-900">Bank Transfer</option>
+                                    <option value="crypto" class="bg-gray-100 text-gray-900">USDT Wallet</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-left mb-1 xs:mb-1.5 text-xs xs:text-sm sm:text-base text-gray-100 font-bold tracking-wide">Currency</label>
+                                <div class="relative">
+                                    <input 
+                                        id="withdraw-currency" 
+                                        name="withdraw-currency" 
+                                        type="text" 
+                                        class="w-full px-4 xs:px-5 sm:px-6 py-4 xs:py-5 sm:py-4 md:py-3 rounded-xl xs:rounded-2xl sm:rounded-xl bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-2xl text-gray-900 border border-white/60 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-400/30 text-base xs:text-lg sm:text-base md:text-lg touch-manipulation shadow-2xl min-h-[56px] xs:min-h-[60px] sm:min-h-[52px] md:min-h-[48px] font-semibold tracking-wide transition-all duration-300 hover:shadow-3xl active:scale-[0.98] pr-12" 
+                                        placeholder="Search currency (e.g., USD, USDT, EUR...)" 
+                                        autocomplete="off"
+                                        required 
+                                    />
+                                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg pointer-events-none"></i>
+                                    <div id="currency-dropdown" class="absolute top-full left-0 right-0 mt-1 bg-white/95 backdrop-blur-2xl rounded-xl shadow-2xl border border-white/60 max-h-48 overflow-y-auto z-50 hidden">
+                                        <!-- Currency options will be populated here -->
+                                    </div>
+                                </div>
+                                <input type="hidden" id="withdraw-currency-code" name="withdraw-currency-code" />
+                            </div>
+                            <div id="withdraw-details" class="min-h-0"></div>
+                            <div class="space-y-2 xs:space-y-3 pt-2 xs:pt-3 sm:pt-4">
+                                <button type="submit" id="confirm-withdrawal-btn" disabled class="w-full py-3 xs:py-3.5 sm:py-4 text-sm xs:text-base sm:text-lg touch-manipulation bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-lg xs:rounded-xl border-0 shadow-xl transform transition-all duration-200 font-black min-h-[44px] xs:min-h-[48px] flex items-center justify-center tracking-wide cursor-not-allowed opacity-60">
+                                    <i class="fas fa-check mr-2"></i>
+                                    Complete All Steps
+                                </button>
+                                <button type="button" id="withdraw-cancel" class="w-full bg-gradient-to-br from-white/15 via-white/10 to-white/15 backdrop-blur-lg text-white rounded-lg xs:rounded-xl py-3 xs:py-3.5 sm:py-4 text-sm xs:text-base sm:text-lg touch-manipulation border border-white/25 hover:bg-white/20 active:scale-95 transition-all duration-200 shadow-lg font-bold min-h-[44px] xs:min-h-[48px] flex items-center justify-center tracking-wide">
+                                    <i class="fas fa-times mr-2"></i>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                        <div id="withdraw-success" class="hidden mt-2 xs:mt-3 sm:mt-4 text-green-300 font-black text-xs xs:text-sm sm:text-base drop-shadow-lg tracking-wide">Withdrawal request submitted!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Currency search functionality
+    const currencies = [
+        { code: 'USDT', name: 'Tether', symbol: '₮' },
+        { code: 'USD', name: 'US Dollar', symbol: '$' },
+        { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$' },
+        { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+        { code: 'VND', name: 'Vietnamese Dong', symbol: '₫' },
+        { code: 'KRW', name: 'Korean Won', symbol: '₩' },
+        { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+        { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+        { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$' },
+        { code: 'TWD', name: 'Taiwan Dollar', symbol: 'NT$' },
+        { code: 'EUR', name: 'Euro', symbol: '€' },
+        { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+        { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+        { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+        { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+        { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+        { code: 'GBP', name: 'British Pound', symbol: '£' },
+        { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
+        { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' }
+    ];
+
+    let selectedCurrencyIndex = -1;
+
+    function initializeCurrencySearch() {
+        const currencyInput = document.getElementById('withdraw-currency');
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        const currencyCodeInput = document.getElementById('withdraw-currency-code');
+
+        if (!currencyInput || !currencyDropdown) return;
+
+        // Show all currencies initially when focused
+        currencyInput.addEventListener('focus', function() {
+            showCurrencies(currencies);
+        });
+
+        // Search functionality
+        currencyInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredCurrencies = currencies.filter(currency => 
+                currency.code.toLowerCase().includes(searchTerm) || 
+                currency.name.toLowerCase().includes(searchTerm)
+            );
+            showCurrencies(filteredCurrencies);
+            selectedCurrencyIndex = -1;
+        });
+
+        // Keyboard navigation
+        currencyInput.addEventListener('keydown', function(e) {
+            const options = currencyDropdown.querySelectorAll('.currency-option');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedCurrencyIndex = Math.min(selectedCurrencyIndex + 1, options.length - 1);
+                updateSelection(options);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedCurrencyIndex = Math.max(selectedCurrencyIndex - 1, -1);
+                updateSelection(options);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (selectedCurrencyIndex >= 0 && options[selectedCurrencyIndex]) {
+                    selectCurrency(options[selectedCurrencyIndex]);
+                }
+            } else if (e.key === 'Escape') {
+                hideCurrencyDropdown();
+            }
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!currencyInput.contains(e.target) && !currencyDropdown.contains(e.target)) {
+                hideCurrencyDropdown();
+            }
+        });
+    }
+
+    function showCurrencies(currenciesToShow) {
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        
+        if (currenciesToShow.length === 0) {
+            currencyDropdown.innerHTML = '<div class="currency-option text-gray-500">No currencies found</div>';
+        } else {
+            currencyDropdown.innerHTML = currenciesToShow.map(currency => 
+                `<div class="currency-option" data-code="${currency.code}" data-name="${currency.name}">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold">${currency.code}</span>
+                        <span class="text-sm text-gray-600">${currency.symbol}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">${currency.name}</div>
+                </div>`
+            ).join('');
+        }
+
+        // Add click handlers to options
+        currencyDropdown.querySelectorAll('.currency-option').forEach(option => {
+            option.addEventListener('click', function() {
+                selectCurrency(this);
+            });
+        });
+
+        currencyDropdown.classList.remove('hidden');
+        selectedCurrencyIndex = -1;
+    }
+
+    function selectCurrency(optionElement) {
+        const code = optionElement.dataset.code;
+        const name = optionElement.dataset.name;
+        
+        if (code && name) {
+            const currencyInput = document.getElementById('withdraw-currency');
+            const currencyCodeInput = document.getElementById('withdraw-currency-code');
+            
+            currencyInput.value = `${code} - ${name}`;
+            currencyCodeInput.value = code;
+            
+            hideCurrencyDropdown();
+            
+            // Trigger validation
+            currencyInput.dispatchEvent(new Event('change'));
+        }
+    }
+
+    function updateSelection(options) {
+        options.forEach((option, index) => {
+            if (index === selectedCurrencyIndex) {
+                option.classList.add('highlighted');
+                option.scrollIntoView({ block: 'nearest' });
+            } else {
+                option.classList.remove('highlighted');
+            }
+        });
+    }
+
+    function hideCurrencyDropdown() {
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        currencyDropdown.classList.add('hidden');
+        selectedCurrencyIndex = -1;
+    }
+
+    // Initialize currency search when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeCurrencySearch);
+    } else {
+        initializeCurrencySearch();
+    }
+    </script>
+
+    <script src="tasks.js"></script>
+    <script>
+    // Mobile enhancement and responsiveness utilities
+    (function() {
+        // Handle iOS viewport issues
+        function handleViewportChanges() {
+            // Set CSS custom property for true viewport height
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // Update on resize
+            window.addEventListener('resize', () => {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            });
+        }
+        
+        // Prevent zoom on input focus (iOS Safari)
+        function preventZoomOnFocus() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    if (window.DeviceMotionEvent && window.DeviceMotionEvent.requestPermission) {
+                        // iOS device detected
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport) {
+                            viewport.setAttribute('content', viewport.getAttribute('content') + ', user-scalable=no');
+                        }
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (window.DeviceMotionEvent && window.DeviceMotionEvent.requestPermission) {
+                        // iOS device detected
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport) {
+                            viewport.setAttribute('content', viewport.getAttribute('content').replace(', user-scalable=no', ''));
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Enhanced modal behavior for mobile
+        function enhanceModalBehavior() {
+            const modal = document.getElementById('withdrawal-modal');
+            if (!modal) return;
+            
+            // Prevent body scroll when modal is open
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        if (modal.classList.contains('hidden')) {
+                            document.body.style.overflow = '';
+                            document.body.style.position = '';
+                            document.body.style.width = '';
+                        } else {
+                            document.body.style.overflow = 'hidden';
+                            document.body.style.position = 'fixed';
+                            document.body.style.width = '100%';
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
+            
+            // Close modal on backdrop click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+            
+            // Escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                handleViewportChanges();
+                preventZoomOnFocus();
+                enhanceModalBehavior();
+            });
+        } else {
+            handleViewportChanges();
+            preventZoomOnFocus();
+            enhanceModalBehavior();
+        }
+    })();
+    </script>
+    <script>
+    // Withdrawal logic
+    const withdrawBtn = document.getElementById('withdraw-btn');
+    const withdrawalModal = document.getElementById('withdrawal-modal');
+    const withdrawalForm = document.getElementById('withdrawal-form');
+    const withdrawAmount = document.getElementById('withdraw-amount');
+    const withdrawMethod = document.getElementById('withdraw-method');
+    const withdrawDetails = document.getElementById('withdraw-details');
+    const withdrawCancel = document.getElementById('withdraw-cancel');
+    const withdrawSuccess = document.getElementById('withdraw-success');
+
+    // Show withdrawal button if all tasks completed
+    function showWithdrawButton() {
+        withdrawBtn.style.display = '';
+    }
+
+    // Automatically show withdrawal button when completion modal is shown
+    const completionModal = document.getElementById('completion-modal');
+    const observer = new MutationObserver(() => {
+        if (!completionModal.classList.contains('hidden')) {
+            showWithdrawButton();
+        }
+    });
+    observer.observe(completionModal, { attributes: true, attributeFilter: ['class'] });
+
+    withdrawBtn.addEventListener('click', () => {
+        withdrawalModal.classList.remove('hidden');
+        withdrawSuccess.classList.add('hidden');
+        withdrawalForm.reset();
+        withdrawDetails.innerHTML = '';
+    });
+    withdrawCancel.addEventListener('click', () => {
+        withdrawalModal.classList.add('hidden');
+    });
+    withdrawMethod.addEventListener('change', function() {
+        if (this.value === 'bank') {
+            // Check if user has bank accounts set up in profile
+            const userData = JSON.parse(localStorage.getItem('epay_data') || '{}');
+            const bankAccounts = userData.paymentMethods?.bankAccounts || [];
+            
+            if (bankAccounts.length === 0) {
+                // No bank accounts set up
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4 p-3 xs:p-4 bg-red-500/10 border border-red-500/30 rounded-lg xs:rounded-xl">
+                        <div class="flex items-center mb-2 xs:mb-3">
+                            <i class="fas fa-exclamation-triangle text-red-400 mr-2 text-sm xs:text-base"></i>
+                            <span class="text-red-400 font-black text-xs xs:text-sm sm:text-base tracking-wide">No Bank Account Found</span>
+                        </div>
+                        <p class="text-xs xs:text-sm text-gray-300 mb-2 xs:mb-3 leading-relaxed font-semibold">You need to set up a bank account in your profile before you can withdraw.</p>
+                        <button type="button" onclick="window.location.href='profile.html'" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white text-xs xs:text-sm px-3 xs:px-4 py-2 xs:py-2.5 rounded-lg xs:rounded-xl touch-manipulation min-h-[36px] xs:min-h-[40px] transition-all duration-200 font-bold tracking-wide">
+                            <i class="fas fa-user mr-1 xs:mr-2"></i>
+                            Go to Profile
+                        </button>
+                    </div>
+                `;
+                // Reset the selection
+                this.value = '';
+                return;
+            }
+            
+            // Find primary account or use first account
+            const primaryAccount = bankAccounts.find(acc => acc.isPrimary) || bankAccounts[0];
+            
+            if (bankAccounts.length === 1) {
+                // Only one account - show details
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4 p-3 xs:p-4 bg-green-500/10 border border-green-500/30 rounded-lg xs:rounded-xl">
+                        <div class="flex items-center mb-2 xs:mb-3">
+                            <i class="fas fa-university text-green-400 mr-2 text-sm xs:text-base"></i>
+                            <span class="text-green-400 font-black text-xs xs:text-sm sm:text-base tracking-wide">Bank Account Selected</span>
+                        </div>
+                        <div class="space-y-1 xs:space-y-1.5 text-xs xs:text-sm">
+                            <div class="break-words"><span class="text-gray-400 font-semibold">Account Holder:</span> <span class="text-white font-bold">${primaryAccount.accountHolder}</span></div>
+                            <div class="break-words"><span class="text-gray-400 font-semibold">Bank:</span> <span class="text-white font-bold">${primaryAccount.bankName}</span></div>
+                            <div class="break-words"><span class="text-gray-400 font-semibold">Account Number:</span> <span class="text-white font-bold">${primaryAccount.accountNumber}</span></div>
+                        </div>
+                        <input type="hidden" name="selected-bank-account" value="${primaryAccount.id}" />
+                    </div>
+                `;
+            } else {
+                // Multiple accounts - show dropdown
+                const accountOptions = bankAccounts.map(acc => 
+                    `<option value="${acc.id}" ${acc.isPrimary ? 'selected' : ''}>${acc.accountHolder} - ${acc.bankName} (${acc.accountNumber})</option>`
+                ).join('');
+                
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4">
+                        <label class="block text-left mb-1 xs:mb-1.5 text-xs xs:text-sm sm:text-base text-gray-100 font-bold tracking-wide">Select Bank Account</label>
+                        <select name="selected-bank-account" class="w-full px-3 xs:px-4 py-2.5 xs:py-3 sm:py-3.5 rounded-lg xs:rounded-xl bg-gradient-to-br from-white/90 via-white/85 to-white/90 backdrop-blur-lg text-gray-900 border border-white/40 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 text-sm xs:text-base sm:text-lg touch-manipulation shadow-lg min-h-[44px] xs:min-h-[48px] font-semibold tracking-wide" required>
+                            ${accountOptions}
+                        </select>
+                    </div>
+                `;
+            }
+        } else if (this.value === 'crypto') {
+            // Check if user has crypto wallets set up in profile
+            const userData = JSON.parse(localStorage.getItem('epay_data') || '{}');
+            const cryptoWallets = userData.paymentMethods?.cryptoWallets || [];
+            
+            if (cryptoWallets.length === 0) {
+                // No crypto wallets set up
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4 p-3 xs:p-4 bg-red-500/10 border border-red-500/30 rounded-lg xs:rounded-xl">
+                        <div class="flex items-center mb-2 xs:mb-3">
+                            <i class="fas fa-exclamation-triangle text-red-400 mr-2 text-sm xs:text-base"></i>
+                            <span class="text-red-400 font-black text-xs xs:text-sm sm:text-base tracking-wide">No USDT Wallet Found</span>
+                        </div>
+                        <p class="text-xs xs:text-sm text-gray-300 mb-2 xs:mb-3 leading-relaxed font-semibold">You need to set up a USDT wallet in your profile before you can withdraw.</p>
+                        <button type="button" onclick="window.location.href='profile.html'" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white text-xs xs:text-sm px-3 xs:px-4 py-2 xs:py-2.5 rounded-lg xs:rounded-xl touch-manipulation min-h-[36px] xs:min-h-[40px] transition-all duration-200 font-bold tracking-wide">
+                            <i class="fas fa-user mr-1 xs:mr-2"></i>
+                            Go to Profile
+                        </button>
+                    </div>
+                `;
+                // Reset the selection
+                this.value = '';
+                return;
+            }
+            
+            // Find active wallet or use first wallet
+            const activeWallet = cryptoWallets.find(wallet => wallet.isActive) || cryptoWallets[0];
+            
+            if (cryptoWallets.length === 1) {
+                // Only one wallet - show details
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4 p-3 xs:p-4 bg-green-500/10 border border-green-500/30 rounded-lg xs:rounded-xl">
+                        <div class="flex items-center mb-2 xs:mb-3">
+                            <i class="fab fa-bitcoin text-green-400 mr-2 text-sm xs:text-base"></i>
+                            <span class="text-green-400 font-black text-xs xs:text-sm sm:text-base tracking-wide">USDT Wallet Selected</span>
+                        </div>
+                        <div class="space-y-1 xs:space-y-1.5 text-xs xs:text-sm">
+                            <div class="break-words"><span class="text-gray-400 font-semibold">Type:</span> <span class="text-white font-bold">${activeWallet.type}</span></div>
+                            <div class="break-words"><span class="text-gray-400 font-semibold">Network:</span> <span class="text-white font-bold">${activeWallet.network}</span></div>
+                            <div class="break-all"><span class="text-gray-400 font-semibold">Address:</span> <span class="text-white font-mono text-xs font-bold">${activeWallet.address}</span></div>
+                        </div>
+                        <input type="hidden" name="selected-crypto-wallet" value="${activeWallet.id}" />
+                    </div>
+                `;
+            } else {
+                // Multiple wallets - show dropdown
+                const walletOptions = cryptoWallets.map(wallet => 
+                    `<option value="${wallet.id}" ${wallet.isActive ? 'selected' : ''}>${wallet.type} (${wallet.network}) - ${wallet.address.substring(0, 10)}...</option>`
+                ).join('');
+                
+                withdrawDetails.innerHTML = `
+                    <div class="mt-2 xs:mt-3 sm:mt-4">
+                        <label class="block text-left mb-1 xs:mb-1.5 text-xs xs:text-sm sm:text-base text-gray-100 font-bold tracking-wide">Select USDT Wallet</label>
+                        <select name="selected-crypto-wallet" class="w-full px-3 xs:px-4 py-2.5 xs:py-3 sm:py-3.5 rounded-lg xs:rounded-xl bg-gradient-to-br from-white/90 via-white/85 to-white/90 backdrop-blur-lg text-gray-900 border border-white/40 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 text-sm xs:text-base sm:text-lg touch-manipulation shadow-lg min-h-[44px] xs:min-h-[48px] font-semibold tracking-wide" required>
+                            ${walletOptions}
+                        </select>
+                    </div>
+                `;
+            }
+        } else {
+            withdrawDetails.innerHTML = '';
+        }
+    });
+    withdrawalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const amountInput = document.getElementById('withdraw-amount');
+        const amount = parseFloat(amountInput.value || 0);
+        const method = formData.get('withdraw-method');
+        const currency = formData.get('withdraw-currency-code') || document.getElementById('withdraw-currency-code').value;
+        
+        console.log('Withdrawal attempt:', { amount, method, amountInput: amountInput.value });
+        
+        // Validate amount
+        if (!amountInput.value || amountInput.value.trim() === '') {
+            alert('Please enter an amount');
+            return;
+        }
+        
+        if (isNaN(amount) || amount <= 0) {
+            alert('Please enter a valid amount greater than 0');
+            return;
+        }
+        
+        // Get current user data
+        const userData = JSON.parse(localStorage.getItem('epay_data') || '{}');
+        const currentBalance = userData.balance || 0;
+        
+        // Round both values to 2 decimal places for accurate comparison
+        const roundedBalance = Math.round(currentBalance * 100) / 100;
+        const roundedAmount = Math.round(amount * 100) / 100;
+        
+        console.log('Balance check:', { 
+            originalBalance: currentBalance, 
+            roundedBalance, 
+            originalAmount: amount, 
+            roundedAmount 
+        });
+        
+        // Check if user has sufficient balance
+        if (roundedBalance < roundedAmount) {
+            alert(`Insufficient balance. Available: $${roundedBalance.toFixed(2)}, Requested: $${roundedAmount.toFixed(2)}`);
+            return;
+        }
+        
+        // Validate payment method
+        if (!method || method === '') {
+            alert('Please select a payment method');
+            return;
+        }
+        
+        // Validate currency selection
+        if (!currency || currency === '') {
+            alert('Please select a currency');
+            return;
+        }
+        
+        // Process withdrawal based on method
+        if (method === 'bank') {
+            const selectedAccountId = formData.get('selected-bank-account');
+            if (!selectedAccountId) {
+                alert('Please select a bank account');
+                return;
+            }
+            
+            // Get the selected bank account details
+            const bankAccounts = userData.paymentMethods?.bankAccounts || [];
+            const selectedAccount = bankAccounts.find(acc => acc.id == selectedAccountId);
+            
+            if (!selectedAccount) {
+                alert('Selected bank account not found');
+                return;
+            }
+            
+            // Create withdrawal transaction
+            const transaction = {
+                type: 'withdrawal',
+                amount: roundedAmount,
+                currency: currency,
+                description: `Withdrawal to ${selectedAccount.bankName} (${selectedAccount.accountNumber}) - ${currency}`,
+                positive: false,
+                timestamp: new Date().toISOString(),
+                paymentMethod: 'bank',
+                bankAccount: selectedAccount
+            };
+            
+            // Update user balance and add transaction
+            if (!userData.transactions) userData.transactions = [];
+            userData.transactions.push(transaction);
+            userData.balance = Math.round(((userData.balance || 0) - roundedAmount) * 100) / 100;
+            
+            // Save updated data
+            localStorage.setItem('epay_data', JSON.stringify(userData));
+            
+        } else if (method === 'crypto') {
+            const selectedWalletId = formData.get('selected-crypto-wallet');
+            if (!selectedWalletId) {
+                alert('Please select a crypto wallet');
+                return;
+            }
+            
+            // Get the selected crypto wallet details
+            const cryptoWallets = userData.paymentMethods?.cryptoWallets || [];
+            const selectedWallet = cryptoWallets.find(wallet => wallet.id == selectedWalletId);
+            
+            if (!selectedWallet) {
+                alert('Selected crypto wallet not found');
+                return;
+            }
+            
+            // Create withdrawal transaction
+            const transaction = {
+                type: 'withdrawal',
+                amount: roundedAmount,
+                currency: currency,
+                description: `Withdrawal to USDT wallet (${selectedWallet.network}) - ${currency}`,
+                positive: false,
+                timestamp: new Date().toISOString(),
+                paymentMethod: 'crypto',
+                cryptoWallet: selectedWallet
+            };
+            
+            // Update user balance and add transaction
+            if (!userData.transactions) userData.transactions = [];
+            userData.transactions.push(transaction);
+            userData.balance = Math.round(((userData.balance || 0) - roundedAmount) * 100) / 100;
+            
+            // Save updated data
+            localStorage.setItem('epay_data', JSON.stringify(userData));
+        }
+        
+        // Show success message
+        withdrawSuccess.classList.remove('hidden');
+        setTimeout(() => {
+            withdrawalModal.classList.add('hidden');
+            withdrawBtn.disabled = true;
+            withdrawBtn.textContent = 'Withdrawal Requested';
+            
+            // Update the task manager instance if available
+            if (window.taskManager) {
+                window.taskManager.userData = JSON.parse(localStorage.getItem('epay_data') || '{}');
+                window.taskManager.updateUI();
+            }
+        }, 1500);
+    });
+
+    // Real-time validation for withdrawal form
+    function validateWithdrawalForm() {
+        const confirmBtn = document.getElementById('confirm-withdrawal-btn');
+        const amountInput = document.getElementById('withdraw-amount');
+        const methodSelect = document.getElementById('withdraw-method');
+        const currencyCodeInput = document.getElementById('withdraw-currency-code');
+        
+        // Check if all required fields are filled
+        const amount = parseFloat(amountInput.value || 0);
+        const method = methodSelect.value;
+        const currency = currencyCodeInput.value;
+        
+        const isAmountValid = amountInput.value && !isNaN(amount) && amount > 0;
+        const isMethodValid = method && method !== '';
+        const isCurrencyValid = currency && currency !== '';
+        
+        const allFieldsValid = isAmountValid && isMethodValid && isCurrencyValid;
+        
+        if (allFieldsValid) {
+            // Enable button and style as active
+            confirmBtn.disabled = false;
+            confirmBtn.className = "w-full py-3 xs:py-3.5 sm:py-4 text-sm xs:text-base sm:text-lg touch-manipulation bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg xs:rounded-xl border-0 shadow-xl transform transition-all duration-200 font-black min-h-[44px] xs:min-h-[48px] flex items-center justify-center tracking-wide cursor-pointer active:scale-95";
+            confirmBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Confirm Withdrawal';
+        } else {
+            // Disable button and style as inactive
+            confirmBtn.disabled = true;
+            confirmBtn.className = "w-full py-3 xs:py-3.5 sm:py-4 text-sm xs:text-base sm:text-lg touch-manipulation bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-lg xs:rounded-xl border-0 shadow-xl transform transition-all duration-200 font-black min-h-[44px] xs:min-h-[48px] flex items-center justify-center tracking-wide cursor-not-allowed opacity-60";
+            confirmBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Complete All Steps';
+        }
+    }
+
+    // Add event listeners for real-time validation
+    function attachWithdrawalValidation() {
+        const amountInput = document.getElementById('withdraw-amount');
+        const methodSelect = document.getElementById('withdraw-method');
+        const currencyCodeInput = document.getElementById('withdraw-currency-code');
+        
+        if (amountInput) {
+            amountInput.addEventListener('input', validateWithdrawalForm);
+            amountInput.addEventListener('blur', validateWithdrawalForm);
+        }
+        
+        if (methodSelect) {
+            methodSelect.addEventListener('change', validateWithdrawalForm);
+        }
+        
+        if (currencyCodeInput) {
+            // Use MutationObserver to watch for changes to the hidden currency code input
+            const observer = new MutationObserver(validateWithdrawalForm);
+            observer.observe(currencyCodeInput, { 
+                attributes: true, 
+                attributeFilter: ['value'],
+                subtree: false 
+            });
+            
+            // Also listen for direct value changes
+            currencyCodeInput.addEventListener('change', validateWithdrawalForm);
+            
+            // Watch for property changes (when value is set via JavaScript)
+            Object.defineProperty(currencyCodeInput, 'value', {
+                get: function() {
+                    return this.getAttribute('value') || '';
+                },
+                set: function(val) {
+                    this.setAttribute('value', val);
+                    validateWithdrawalForm();
+                }
+            });
+        }
+        
+        // Initial validation
+        validateWithdrawalForm();
+    }
+
+    // Initialize validation when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        attachWithdrawalValidation();
+    });
+
+    // Re-attach validation when withdrawal modal is opened
+    const originalWithdrawBtnClick = withdrawBtn.addEventListener;
+    withdrawBtn.addEventListener('click', () => {
+        setTimeout(() => {
+            attachWithdrawalValidation();
+        }, 100); // Small delay to ensure DOM is updated
+    });
+
+    // Update withdrawal modal to show total and autofill amount
+    function updateWithdrawModal() {
+        const withdrawTotal = document.getElementById('withdraw-total');
+        const withdrawAmount = document.getElementById('withdraw-amount');
+        // Use the live TaskManager instance for up-to-date balance
+        let total = 0;
+        if (window.taskManager && window.taskManager.userData && typeof window.taskManager.userData.balance === 'number') {
+            total = window.taskManager.userData.balance;
+        }
+        withdrawTotal.textContent = `Total Available: $${Number(total).toFixed(2)}`;
+        withdrawAmount.value = Number(total).toFixed(2);
+        withdrawAmount.max = Number(total).toFixed(2);
+    }
+    // Attach to withdraw button only once
+    if (window._withdrawBtnListener !== true) {
+        window._withdrawBtnListener = true;
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'withdraw-btn') {
+                updateWithdrawModal();
+            }
+        });
+    }
+
+    // Add viewport handler for responsive layout
+    function handleViewportChange() {
+        // Update modal sizing on orientation change
+        const modals = document.querySelectorAll('#completion-modal, #withdrawal-modal');
+        modals.forEach(modal => {
+            if (!modal.classList.contains('hidden')) {
+                // Force recalculation of modal positioning
+                modal.style.display = 'none';
+                requestAnimationFrame(() => {
+                    modal.style.display = '';
+                });
+            }
+        });
+    }
+
+    // Listen for viewport changes
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(handleViewportChange, 100); // Delay to allow orientation change to complete
+    });
+    
+    // Handle safe area insets for newer devices
+    if (CSS.supports('padding-bottom: env(safe-area-inset-bottom)')) {
+        document.documentElement.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom)');
+    } else {
+        document.documentElement.style.setProperty('--safe-area-bottom', '0px');
+    }
+    </script>
+</body>
+</html>

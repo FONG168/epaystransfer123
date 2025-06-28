@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ePay's Member Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard-styles.css">    <style>
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .currency-card {
+            background: linear-gradient(90deg, #1e293b 60%, #334155 100%);
+            border-radius: 0.75rem;
+            padding: 0.75rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10);
+        }
+        .currency-card:hover, .currency-card.selected {
+            border: 2px solid #38bdf8;
+            box-shadow: 0 4px 16px 0 rgba(56,189,248,0.15);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .currency-symbol {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .currency-code {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .currency-name {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .currency-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 0.25rem;
+            margin-top: 0.5rem;
+            letter-spacing: 0.01em;
+        }
+        .currency-flag {
+            font-size: 1.3rem;
+            margin-bottom: 0.15rem;
+        }
+        @media (max-width: 500px) {
+            .currency-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }        }
+        @keyframes fadeInLg {
+            0% { opacity: 0; transform: scale(0.95) translateY(40px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-fade-in-lg {
+            animation: fadeInLg 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        
+        /* Chat Message Animations */
+        @keyframes slideInFromLeft {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-30px) scale(0.95);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) scale(1);
+            }
+        }
+        
+        @keyframes slideInFromRight {
+            0% { 
+                opacity: 0; 
+                transform: translateX(30px) scale(0.95);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) scale(1);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.9);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .chat-message-enter {
+            animation: fadeInUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .chat-message-member {
+            animation: slideInFromLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .chat-message-user {
+            animation: slideInFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f1f3f4;
+            border-radius: 18px;
+            margin: 8px 0;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #9ca3af;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0ms; }
+        .typing-dot:nth-child(2) { animation-delay: 160ms; }
+        .typing-dot:nth-child(3) { animation-delay: 320ms; }
+        
+        /* Optimized scroll for chat container */
+        #chat-messages {
+            scroll-behavior: auto; /* Use auto for better performance */
+            transform: translateZ(0); /* Enable hardware acceleration */
+            will-change: scroll-position; /* Optimize for scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            contain: layout style paint; /* Optimize rendering */
+        }
+        
+        /* Enhanced chat message styling for better readability */
+        #chat-messages .inline-block {
+            font-weight: 400 !important; /* Ensure normal font weight */
+            letter-spacing: 0.02em; /* Improve readability */
+            word-spacing: 0.1em; /* Better word spacing */
+        }
+        
+        /* Optimize chat message containers */
+        .chat-message-container {
+            backface-visibility: hidden; /* Prevent flickering */
+            transform: translateZ(0); /* Hardware acceleration */
+        }
+        
+        /* Mobile optimizations for chat */
+        @media (max-width: 640px) {
+            #chat-messages {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            #chat-messages .inline-block {
+                font-size: 0.75rem !important; /* Smaller on mobile */
+                line-height: 1.3 !important;
+                padding: 0.75rem 1rem !important;
+            }
+        }
+        
+        /* Disable hardware acceleration on hover for better performance */
+        #chat-messages .inline-block:hover {
+            transform: none !important;
+        }
+        
+        /* Enhanced chat message animations */
+        .chat-message-agent {
+            animation: slideInLeft 0.4s ease-out;
+        }
+        
+        .chat-message-user {
+            animation: slideInRight 0.4s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Enhanced typing indicator */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 18px;
+            border: 1px solid rgba(203, 213, 225, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin: 8px 0;
+            backdrop-filter: blur(8px);
+        }
+        
+        @media (min-width: 640px) {
+            .typing-indicator {
+                padding: 14px 18px;
+                border-radius: 20px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .typing-indicator {
+                padding: 16px 20px;
+                border-radius: 22px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .typing-indicator {
+                padding: 18px 24px;
+                border-radius: 24px;
+            }
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+            margin: 0 2px;
+            animation: typing 1.6s infinite ease-in-out;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 640px) {
+            .typing-dot {
+                width: 8px;
+                height: 8px;
+                margin: 0 3px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .typing-dot {
+                width: 10px;
+                height: 10px;
+                margin: 0 4px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .typing-dot {
+                width: 12px;
+                height: 12px;
+                margin: 0 5px;
+            }
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0ms; }
+        .typing-dot:nth-child(2) { animation-delay: 200ms; }
+        .typing-dot:nth-child(3) { animation-delay: 400ms; }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            @keyframes typing {
+                0%, 60%, 100% {
+                    transform: translateY(0);
+                    opacity: 0.4;
+                }
+                30% {
+                    transform: translateY(-10px);
+                    opacity: 1;
+                }
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            @keyframes typing {
+                0%, 60%, 100% {
+                    transform: translateY(0);
+                    opacity: 0.4;
+                }
+                30% {
+                    transform: translateY(-12px);
+                    opacity: 1;
+                }
+            }
+        }
+        
+        /* Custom scrollbar for chat */
+        .scrollbar-thin {
+            scrollbar-width: thin;
+        }
+        
+        .scrollbar-thumb-blue-200 {
+            scrollbar-color: #dbeafe transparent;
+        }
+        
+        .scrollbar-track-transparent::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .scrollbar-track-transparent::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .scrollbar-track-transparent::-webkit-scrollbar-thumb {
+            background: #dbeafe;
+            border-radius: 10px;
+        }
+        
+        .scrollbar-track-transparent::-webkit-scrollbar-thumb:hover {
+            background: #bfdbfe;
+        }
+        
+        /* Mobile responsive improvements */
+        @media (max-width: 640px) {
+            .currency-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .currency-card {
+                padding: 0.5rem 0.25rem;
+            }
+            
+            .currency-symbol {
+                font-size: 1.25rem;
+            }
+            
+            .currency-code {
+                font-size: 0.875rem;
+            }
+            
+            .currency-name {
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Touch optimization */
+        .touch-manipulation {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        
+        /* Safe area support */
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Better focus states for accessibility */
+        button:focus-visible, 
+        .nav-item:focus-visible,
+        .level-card:focus-visible {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        
+        /* Improved glass card for mobile */
+        @media (max-width: 640px) {
+            .glass-card {
+                backdrop-filter: blur(8px) !important;
+                background: rgba(17, 24, 39, 0.85) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            }
+        }
+        
+        /* Very small screens adjustments */
+        @media (max-width: 320px) {
+            .text-responsive {
+                font-size: 0.75rem !important;
+                line-height: 1rem !important;
+            }
+            
+            header h1 {
+                font-size: 1rem !important;
+            }
+            
+            .nav-item span {
+                font-size: 0.6rem !important;
+            }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+            .glass-card {
+                border-width: 0.5px;
+            }
+        }
+        
+        /* Modal responsive improvements */
+        .max-h-90vh {
+            max-height: 90vh;
+        }
+        
+        /* Enhanced close button for live chat */
+        #close-live-chat {
+            position: relative;
+            z-index: 9999 !important;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        #close-live-chat:hover {
+            transform: scale(1.1);
+        }
+        
+        #close-live-chat:active {
+            transform: scale(0.95);
+        }
+        
+        /* Ensure modal content doesn't interfere with close button */
+        #live-chat-modal .flex {
+            position: relative;
+            z-index: 1;
+        }
+        
+        #live-chat-modal button {
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-900 to-purple-900 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2 sm:py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center min-w-0">
+                    <h1 class="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent truncate">
+                        ePay's Member
+                    </h1>
+                </div>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="text-right min-w-0">
+                        <div class="text-xs sm:text-sm text-gray-300">Balance</div>
+                        <div class="text-sm sm:text-lg font-bold text-green-400 truncate" id="total-balance">$0.00</div>
+                    </div>
+                    <button id="profile-btn" class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 touch-manipulation">
+                        <i class="fas fa-user text-sm sm:text-base"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-16 sm:pt-20 pb-16 sm:pb-20 min-h-screen">
+        <!-- Welcome Section -->
+        <section class="px-3 sm:px-4 py-4 sm:py-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="glass-card bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-2">Welcome, Member!</h2>
+                    <p class="text-gray-300 text-sm sm:text-base">Complete money transfer tasks to earn commissions</p>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
+                        <div class="text-center">
+                            <div class="text-lg sm:text-2xl font-bold text-green-400 truncate" id="total-earned">$0.00</div>
+                            <div class="text-xs sm:text-sm text-gray-300">Total Earned</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg sm:text-2xl font-bold text-blue-400" id="tasks-completed">0</div>
+                            <div class="text-xs sm:text-sm text-gray-300">Tasks Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg sm:text-2xl font-bold text-purple-400" id="current-level">Level 1</div>
+                            <div class="text-xs sm:text-sm text-gray-300">Current Level</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg sm:text-2xl font-bold text-yellow-400" id="commission-rate">0.6%</div>
+                            <div class="text-xs sm:text-sm text-gray-300">Commission Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Levels Section -->
+        <section class="px-3 sm:px-4 py-4 sm:py-6">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Member Levels</h3>                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4" id="levels-container">
+                    <!-- Level 1 Member -->
+                    <div class="level-card glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 border locked balance-locked touch-manipulation" data-level="1">
+                        <div class="text-center">
+                            <div class="absolute top-2 right-2 text-red-400"><i class="fas fa-lock text-sm sm:text-lg"></i></div>
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 opacity-50">
+                                <i class="fas fa-medal text-lg sm:text-xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-base sm:text-lg mb-1 opacity-75">Level 1 Member</h4>
+                            <p class="text-xs sm:text-sm text-gray-300 mb-2 opacity-75">Basic level for new members</p>
+                            <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm opacity-75">
+                                <div class="flex justify-between">
+                                    <span>Deposit:</span>
+                                    <span class="deposit-amount text-red-400">$200</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tasks:</span>
+                                    <span class="text-blue-400">65/day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Commission:</span>
+                                    <span class="text-purple-400">0.6%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Earning:</span>
+                                    <span class="text-green-400">$7-12/day</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:mt-3 opacity-75">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="text-xs text-gray-400 mt-1">0/65 tasks</div>
+                            </div>
+                            <div class="mt-2 text-xs text-red-400 font-semibold">REQUIRES $200 DEPOSIT</div>
+                            <div class="mt-1 sm:mt-2 text-xs text-red-300 font-semibold"><i class="fas fa-mouse-pointer mr-1"></i>Click to Deposit</div>
+                        </div>
+                    </div>
+
+                    <!-- Level 2 Member -->
+                    <div class="level-card glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 border locked balance-locked touch-manipulation" data-level="2">
+                        <div class="text-center">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 opacity-50">
+                                <i class="fas fa-award text-lg sm:text-xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-base sm:text-lg mb-1 opacity-75">Level 2 Member</h4>
+                            <p class="text-xs sm:text-sm text-gray-300 mb-2 opacity-75">Intermediate level with better rewards</p>
+                            <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm opacity-75">
+                                <div class="flex justify-between">
+                                    <span>Deposit:</span>
+                                    <span class="deposit-amount text-red-400">$1,800</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tasks:</span>
+                                    <span class="text-blue-400">85/day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Commission:</span>
+                                    <span class="text-purple-400">1%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Earning:</span>
+                                    <span class="text-green-400">$50-60/day</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:mt-3 opacity-75">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="text-xs text-gray-400 mt-1">0/85 tasks</div>
+                            </div>
+                            <div class="mt-2 text-xs text-red-400 font-semibold">REQUIRES $1,800 DEPOSIT</div>
+                            <div class="mt-1 sm:mt-2 text-xs text-red-300 font-semibold"><i class="fas fa-mouse-pointer mr-1"></i>Click to Deposit</div>
+                        </div>
+                    </div>
+
+                    <!-- Level 3 Member -->
+                    <div class="level-card glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 border locked balance-locked touch-manipulation" data-level="3">
+                        <div class="text-center">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 opacity-50">
+                                <i class="fas fa-trophy text-lg sm:text-xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-base sm:text-lg mb-1 opacity-75">Level 3 Member</h4>
+                            <p class="text-xs sm:text-sm text-gray-300 mb-2 opacity-75">Advanced level for experienced members</p>
+                            <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm opacity-75">
+                                <div class="flex justify-between">
+                                    <span>Deposit:</span>
+                                    <span class="deposit-amount text-red-400">$3,500</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tasks:</span>
+                                    <span class="text-blue-400">100/day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Commission:</span>
+                                    <span class="text-purple-400">3%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Earning:</span>
+                                    <span class="text-green-400">$300-500/day</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:mt-3 opacity-75">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="text-xs text-gray-400 mt-1">0/100 tasks</div>
+                            </div>
+                            <div class="mt-2 text-xs text-red-400 font-semibold">REQUIRES $3,500 DEPOSIT</div>
+                            <div class="mt-1 sm:mt-2 text-xs text-red-300 font-semibold"><i class="fas fa-mouse-pointer mr-1"></i>Click to Deposit</div>
+                        </div>
+                    </div>
+
+                    <!-- Level 4 Member -->
+                    <div class="level-card glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 border locked balance-locked touch-manipulation" data-level="4">
+                        <div class="text-center">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 opacity-50">
+                                <i class="fas fa-crown text-lg sm:text-xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-base sm:text-lg mb-1 opacity-75">Level 4 Member</h4>
+                            <p class="text-xs sm:text-sm text-gray-300 mb-2 opacity-75">Premium level with high commissions</p>
+                            <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm opacity-75">
+                                <div class="flex justify-between">
+                                    <span>Deposit:</span>
+                                    <span class="deposit-amount text-red-400">$4,500</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tasks:</span>
+                                    <span class="text-blue-400">140/day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Commission:</span>
+                                    <span class="text-purple-400">5%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Earning:</span>
+                                    <span class="text-green-400">$400-500/day</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:mt-3 opacity-75">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="text-xs text-gray-400 mt-1">0/140 tasks</div>
+                            </div>
+                            <div class="mt-2 text-xs text-red-400 font-semibold">REQUIRES $4,500 DEPOSIT</div>
+                            <div class="mt-1 sm:mt-2 text-xs text-red-300 font-semibold"><i class="fas fa-mouse-pointer mr-1"></i>Click to Deposit</div>
+                        </div>
+                    </div>
+
+                    <!-- Level 5 Member -->
+                    <div class="level-card glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 border locked balance-locked touch-manipulation" data-level="5">
+                        <div class="text-center">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 opacity-50">
+                                <i class="fas fa-gem text-lg sm:text-xl text-white"></i>
+                            </div>
+                            <h4 class="font-bold text-base sm:text-lg mb-1 opacity-75">Level 5 Member</h4>
+                            <p class="text-xs sm:text-sm text-gray-300 mb-2 opacity-75">Elite level for top performers</p>
+                            <div class="space-y-1 sm:space-y-2 text-xs sm:text-sm opacity-75">
+                                <div class="flex justify-between">
+                                    <span>Deposit:</span>
+                                    <span class="deposit-amount text-red-400">$8,000</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Tasks:</span>
+                                    <span class="text-blue-400">160/day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Commission:</span>
+                                    <span class="text-purple-400">8%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Earning:</span>
+                                    <span class="text-green-400">$500-600/day</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:mt-3 opacity-75">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="text-xs text-gray-400 mt-1">0/160 tasks</div>
+                            </div>
+                            <div class="mt-2 text-xs text-red-400 font-semibold">REQUIRES $8,000 DEPOSIT</div>
+                            <div class="mt-1 sm:mt-2 text-xs text-red-300 font-semibold"><i class="fas fa-mouse-pointer mr-1"></i>Click to Deposit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-800/95 backdrop-blur-md border-t border-gray-700 safe-area-bottom">
+        <div class="max-w-7xl mx-auto px-2 sm:px-4">
+            <div class="flex justify-around py-2 sm:py-3">
+                <button class="nav-item active flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0 touch-manipulation" data-page="home">
+                    <i class="fas fa-home text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Home</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0 touch-manipulation" data-page="transactions">
+                    <i class="fas fa-exchange-alt text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Tasks</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0 touch-manipulation" data-page="market">
+                    <i class="fas fa-chart-line text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Market</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0 touch-manipulation" data-page="history">
+                    <i class="fas fa-history text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">History</span>
+                </button>
+                <button class="nav-item flex flex-col items-center justify-center text-center p-1 sm:p-2 min-w-0 touch-manipulation" data-page="profile">
+                    <i class="fas fa-user text-lg sm:text-xl mb-1"></i>
+                    <span class="text-xs">Profile</span>
+                </button>
+            </div>
+        </div>
+    </nav>    <!-- Level Selection Modal -->
+    <div id="level-modal" class="fixed inset-0 bg-gradient-to-br from-black/30 via-gray-900/20 to-black/30 backdrop-blur-xl z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-3 sm:p-6">
+            <div class="relative">
+                <!-- Background glow effect -->
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-blue-500/20 to-green-500/20 rounded-xl sm:rounded-2xl blur-xl transform scale-110"></div>
+                
+                <!-- Main modal -->
+                <div class="relative glass-card bg-gradient-to-br from-white/10 via-white/5 to-white/10 backdrop-blur-2xl rounded-xl sm:rounded-2xl max-w-sm w-full border border-white/30 shadow-2xl">
+                    <div class="p-4 sm:p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg sm:text-xl font-bold text-white bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent" id="modal-level-title">Level Details</h3>
+                            <button id="close-level-modal" class="text-gray-300 hover:text-white text-xl sm:text-2xl touch-manipulation transition-colors">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div id="modal-level-content" class="text-gray-100">
+                            <!-- Level details will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Chat Modal -->
+    <div id="live-chat-modal" class="fixed inset-0 bg-gradient-to-br from-black/30 via-gray-900/20 to-black/30 backdrop-blur-xl z-50 hidden flex items-center justify-center transition-all duration-500 ease-in-out p-2 sm:p-4 md:p-6 lg:p-8" onclick="if(event.target === this) { window.dashboard?.closeLiveChat(); }">
+        <div class="relative w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-5xl" onclick="event.stopPropagation();">
+            <!-- Background glow effect -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-green-500/20 to-purple-500/20 rounded-xl sm:rounded-2xl md:rounded-3xl blur-xl transform scale-110"></div>
+            
+            <!-- Main modal -->
+            <div class="relative bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-2xl rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl w-full flex flex-col animate-fade-in-lg scale-95 opacity-0 transition-all duration-500 ease-in-out border border-white/30" style="height: 85vh; min-height: 500px; max-height: 750px; min-width: 320px;">
+                <!-- Chat Header -->
+                <div class="flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 md:py-6 lg:py-7 border-b border-white/20 bg-gradient-to-r from-blue-600/90 via-blue-500/90 to-blue-400/90 backdrop-blur-lg rounded-t-xl sm:rounded-t-2xl md:rounded-t-3xl shadow-lg flex-shrink-0">
+                    <div class="flex items-center min-w-0 flex-1">
+                        <div class="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center mr-3 sm:mr-4 md:mr-5 lg:mr-6 shadow-xl border-2 sm:border-3 md:border-4 border-white/30 flex-shrink-0">
+                            <i class="fas fa-user-headset text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl"></i>
+                            <!-- Online indicator -->
+                            <div class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 bg-green-400 rounded-full border-2 sm:border-3 border-white animate-pulse"></div>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="font-extrabold text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl tracking-wide truncate bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">ePay Live Support Center</div>
+                            <div class="flex items-center text-sm sm:text-base md:text-lg lg:text-xl text-green-100 mt-1 sm:mt-2">
+                                <span class="w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                                Customer Service Available 24/7
+                            </div>
+                        </div>
+                    </div>
+                    <button id="close-live-chat" onclick="window.dashboard?.closeLiveChat(); console.log('Direct onclick triggered');" class="relative z-10 text-white hover:text-red-300 active:text-red-400 text-2xl sm:text-3xl md:text-4xl lg:text-5xl transition-all duration-200 touch-manipulation flex-shrink-0 p-2 sm:p-3 md:p-4 hover:bg-white/20 active:bg-white/30 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl active:scale-95 cursor-pointer" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-times pointer-events-none"></i>
+                    </button>
+                </div>
+                
+                <!-- Chat Body -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto bg-gradient-to-br from-gray-50/95 via-blue-50/95 to-white/95 backdrop-blur-lg px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 md:py-6 lg:py-8 border border-white/10 scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent" style="font-size: 0.8rem; line-height: 1.4; min-height: 350px; font-weight: 400;">
+                    <!-- Chat messages will appear here -->
+                </div>
+                
+                <!-- Chat Input -->
+                <div class="flex-shrink-0 border-t border-white/20 bg-gradient-to-r from-white/90 via-gray-50/90 to-white/90 backdrop-blur-lg rounded-b-xl sm:rounded-b-2xl md:rounded-b-3xl shadow-lg">
+                    <form id="chat-form" class="flex px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 md:py-6 lg:py-7 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+                        <input id="chat-input" type="text" class="flex-1 rounded-lg sm:rounded-xl md:rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm px-4 sm:px-5 md:px-6 lg:px-7 py-3 sm:py-4 md:py-5 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400 transition-all duration-200 text-sm sm:text-base md:text-lg lg:text-xl placeholder-gray-500 text-gray-800 shadow-lg min-w-0 font-medium" placeholder="Type your message here..." autocomplete="off" />
+                        <button type="submit" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 sm:px-8 md:px-10 lg:px-12 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl md:rounded-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-bold text-sm sm:text-base md:text-lg lg:text-xl shadow-xl transform hover:scale-105 active:scale-95 touch-manipulation flex-shrink-0">
+                            <span class="hidden sm:inline">Send Message</span>
+                            <i class="fas fa-paper-plane sm:hidden"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Activation Modal -->
+    <div id="activate-account-modal" class="fixed inset-0 bg-gradient-to-br from-black/30 via-gray-900/20 to-black/30 backdrop-blur-xl z-50 hidden flex items-center justify-center transition-all duration-500 ease-in-out p-3 sm:p-6">
+        <div class="relative">
+            <!-- Background glow effect -->
+            <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 via-blue-500/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-xl transform scale-110"></div>
+            
+            <!-- Main modal -->
+            <div class="relative bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-lg w-full p-0 flex flex-col animate-fade-in-lg scale-95 opacity-0 transition-all duration-500 ease-in-out max-h-90vh overflow-hidden border border-white/30">
+                <div class="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-white/20 bg-gradient-to-r from-green-600/90 via-blue-500/90 to-purple-500/90 backdrop-blur-lg rounded-t-2xl sm:rounded-t-3xl shadow-lg">
+                    <div class="font-extrabold text-white text-lg sm:text-xl tracking-wide bg-gradient-to-r from-white to-gray-100 bg-clip-text text-transparent">Activate Account</div>
+                    <button id="close-activate-modal" class="text-white hover:text-red-300 text-2xl sm:text-3xl transition touch-manipulation"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="activate-step-content" class="flex-1 px-4 sm:px-8 py-4 sm:py-7 bg-gradient-to-br from-gray-50/95 via-blue-50/95 to-white/95 backdrop-blur-lg rounded-b-2xl sm:rounded-b-3xl overflow-y-auto border border-white/10">
+                    <!-- Steps will be injected here by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
+    <script>
+        // Backup close function for live chat
+        function closeLiveChatBackup() {
+            console.log('Backup close function called');
+            const modal = document.getElementById('live-chat-modal');
+            if (modal) {
+                const modalContent = modal.querySelector('.bg-gradient-to-br');
+                if (modalContent) {
+                    modalContent.classList.remove('scale-100', 'opacity-100');
+                    modalContent.classList.add('scale-95', 'opacity-0');
+                }
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+        
+        // Add click handlers for level cards after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up event handlers');
+            
+            // Backup event handler for close button
+            const closeBtn = document.getElementById('close-live-chat');
+            if (closeBtn) {
+                console.log('Adding backup event handler to close button');
+                closeBtn.addEventListener('click', function(e) {
+                    console.log('Backup close handler triggered');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Try dashboard method first, then backup
+                    if (window.dashboard && window.dashboard.closeLiveChat) {
+                        window.dashboard.closeLiveChat();
+                    } else {
+                        closeLiveChatBackup();
+                    }
+                }, true); // Use capture phase
+            }
+            
+            // Wait a bit for dashboard to initialize
+            setTimeout(() => {
+                const levelCards = document.querySelectorAll('.level-card');
+                levelCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        const level = parseInt(this.dataset.level);
+                        // Try to access the dashboard instance
+                        if (window.dashboard && window.dashboard.showProfessionalDepositModal) {
+                            const levels = {
+                                1: {
+                                    name: 'Level 1 Member',
+                                    minDeposit: 200,
+                                    dailyTasks: 65,
+                                    commissionRate: 0.6,
+                                    description: 'Basic level for new members',
+                                    color: 'from-amber-600 to-orange-600',
+                                    icon: 'fas fa-medal',
+                                    earning: '$7-12/day'
+                                },
+                                2: {
+                                    name: 'Level 2 Member',
+                                    minDeposit: 1800,
+                                    dailyTasks: 85,
+                                    commissionRate: 1,
+                                    description: 'Intermediate level with better rewards',
+                                    color: 'from-gray-400 to-gray-600',
+                                    icon: 'fas fa-award',
+                                    earning: '$50-60/day'
+                                },
+                                3: {
+                                    name: 'Level 3 Member',
+                                    minDeposit: 3500,
+                                    dailyTasks: 100,
+                                    commissionRate: 3,
+                                    description: 'Advanced level for experienced members',
+                                    color: 'from-yellow-400 to-yellow-600',
+                                    icon: 'fas fa-trophy',
+                                    earning: '$300-500/day'
+                                },
+                                4: {
+                                    name: 'Level 4 Member',
+                                    minDeposit: 4500,
+                                    dailyTasks: 140,
+                                    commissionRate: 5,
+                                    description: 'Premium level with high commissions',
+                                    color: 'from-purple-400 to-purple-600',
+                                    icon: 'fas fa-crown',
+                                    earning: '$400-500/day'
+                                },
+                                5: {
+                                    name: 'Level 5 Member',
+                                    minDeposit: 8000,
+                                    dailyTasks: 160,
+                                    commissionRate: 8,
+                                    description: 'Elite level for top performers',
+                                    color: 'from-blue-400 to-cyan-400',
+                                    icon: 'fas fa-gem',
+                                    earning: '$500-600/day'
+                                }
+                            };
+                            
+                            const config = levels[level];
+                            const levelProgress = window.dashboard.userData.levelProgress[level];
+                            const hasRequiredDeposit = levelProgress.deposited >= config.minDeposit;
+                            const isLocked = !hasRequiredDeposit; // Level is locked only if deposit requirement not met
+                            
+                            window.dashboard.showProfessionalDepositModal(level, config, levelProgress, isLocked);
+                        } else {
+                            // Fallback: show alert
+                            alert('Please wait for the dashboard to load, then try again.');
+                        }
+                    });
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

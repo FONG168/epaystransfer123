@@ -1,0 +1,21 @@
+# Netlify redirects and rewrites
+/*    /index.html   200
+
+# SPA routing
+/dashboard              /dashboard.html           200
+/tasks                  /tasks.html               200
+/market                 /market.html              200
+/history                /history.html             200
+/profile                /profile.html             200
+/business-account       /business-account.html    200
+/send-money             /send-money.html          200
+/exchange-rates         /exchange-rates.html      200
+/about                  /about.html               200
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ePay's</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00D4FF',
+                        'neon-purple': '#8B5CF6',
+                        'dark-gray': '#1F2937',
+                    },
+                    fontFamily: {
+                        'futura': ['Futura', 'sans-serif'],
+                    },
+                    animation: {
+                        'gradient': 'gradient 6s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        glow: {
+                            '0%': { 'box-shadow': '0 0 20px rgba(0, 212, 255, 0.3)' },
+                            '100%': { 'box-shadow': '0 0 40px rgba(0, 212, 255, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Logo Animation Styles */
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4.5em;
+            height: 4.5em;
+            border: 0.25em solid transparent;
+            border-top: 0.25em solid #00D4FF;
+            border-right: 0.25em solid #8B5CF6;
+            border-radius: 50%;
+            animation: logoSpin 3s linear infinite;
+            pointer-events: none;
+        }
+        
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            top: -0.25em;
+            left: -0.25em;
+            right: -0.25em;
+            bottom: -0.25em;
+            border: 0.2em solid transparent;
+            border-bottom: 0.2em solid #00D4FF;
+            border-left: 0.2em solid #8B5CF6;
+            border-radius: 50%;
+            animation: logoSpinReverse 2s linear infinite;
+        }
+        
+        /* Context-specific sizing */
+        .logo-container {
+            font-size: 1rem; /* Base size for navigation */
+        }
+        
+        /* Footer specific sizing */
+        .logo-container.footer-logo {
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .logo-container {
+                font-size: 0.85rem;
+            }
+            
+            .logo-container.footer-logo {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .logo-container {
+                font-size: 0.95rem;
+            }
+            
+            .logo-container.footer-logo {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .logo-container {
+                font-size: 1rem;
+            }
+            
+            .logo-container.footer-logo {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @keyframes logoSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes logoSpinReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        
+        .logo-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            padding: 0.25em 0.5em;
+        }
+        
+        .logo-container:hover .logo-circle {
+            animation-duration: 1s;
+        }
+        
+        .logo-container:hover .logo-circle::before {
+            animation-duration: 0.8s;
+        }
+        
+        /* Smooth Scrolling and Page Flow Enhancements */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Account for fixed navigation */
+        }
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        /* Enhanced smooth scrolling for all browsers */
+        @supports (scroll-behavior: smooth) {
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+        
+        /* Smoother momentum scrolling for iOS */
+        body {
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        
+        /* Smooth transitions for all elements */
+        * {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Enhanced page sections with smooth entrance */
+        .glass-section {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: section-fade-in 0.8s ease forwards;
+        }
+        
+        .glass-section:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .glass-section:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .glass-section:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes section-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Smooth scrolling with CSS custom properties for better performance */
+        :root {
+            --scroll-padding: 80px;
+        }
+        
+        /* Intersection Observer triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth hover transitions for all interactive elements */
+        a, button, .glass-button, .nav-link {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        /* Smoother scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.3);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #00D4FF, #8B5CF6);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #00B8E6, #7C3AED);
+        }
+        
+        /* Smooth page transitions */
+        .page-transition {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        /* Enhanced mobile scrolling performance */
+        @media (max-width: 768px) {
+            body {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-y: contain;
+                scroll-snap-type: y proximity;
+            }
+            
+            section {
+                scroll-snap-align: start;
+            }
+        }
+        
+        /* Additional Mobile Responsive Enhancements */
+        @media (max-width: 640px) {
+            .glass-card {
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 1rem !important;
+            }
+            
+            /* Better mobile padding and spacing */
+            .glass-section {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            /* Better touch targets for mobile */
+            .nav-link, .glass-button {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* Optimize text sizes for mobile readability */
+            h1 {
+                line-height: 1.2 !important;
+            }
+            
+            h2 {
+                line-height: 1.3 !important;
+            }
+            
+            /* Improve grid layouts on mobile */
+            .grid {
+                gap: 0.75rem !important;
+            }
+            
+            /* Better spacing for mobile statistics with improved contrast */
+            .grid.grid-cols-2 > div {
+                min-height: 140px !important;
+                padding: 1.25rem 1rem !important;
+                background: rgba(255, 255, 255, 0.12) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+                backdrop-filter: blur(20px) !important;
+            }
+            
+            /* Enhance mobile statistics text */
+            .grid.grid-cols-2 > div .text-2xl,
+            .grid.grid-cols-2 > div .text-3xl,
+            .grid.grid-cols-2 > div .text-4xl {
+                font-size: 1.875rem !important; /* text-3xl */
+                font-weight: 800 !important;
+                color: #00D4FF !important;
+                text-shadow: 0 2px 4px rgba(0, 212, 255, 0.3) !important;
+            }
+            
+            .grid.grid-cols-2 > div .text-xs,
+            .grid.grid-cols-2 > div .text-sm,
+            .grid.grid-cols-2 > div .text-base {
+                font-size: 0.875rem !important; /* text-sm */
+                font-weight: 500 !important;
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+            
+            /* Better mobile navigation */
+            .max-w-7xl {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+            
+            /* Improve mobile hero section */
+            .glass-card {
+                background: rgba(255, 255, 255, 0.1) !important;
+                border: 1px solid rgba(255, 255, 255, 0.25) !important;
+                backdrop-filter: blur(20px) !important;
+            }
+        }
+        
+        /* Tablet responsive adjustments */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .glass-card {
+                border-radius: 1.5rem !important;
+            }
+            
+            .grid {
+                gap: 1.5rem !important;
+            }
+        }
+        
+        /* Ultra-wide screen optimizations */
+        @media (min-width: 1536px) {
+            .max-w-7xl {
+                max-width: 90rem;
+            }
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .animate-pulse,
+            .animate-bounce,
+            .animate-gradient {
+                animation: none !important;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .glass-card {
+                border-width: 2px;
+                border-color: rgba(255, 255, 255, 0.5) !important;
+            }
+            
+            .text-white\/70,
+            .text-white\/80 {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+        }
+        
+        /* Dark mode already handled, but ensure consistency */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0f172a;
+            }
+        }
+        
+        /* Improved focus styles for accessibility */
+        a:focus,
+        button:focus {
+            outline: 2px solid #00D4FF;
+            outline-offset: 2px;
+            border-radius: 0.375rem;
+        }
+        
+        /* Better touch feedback */
+        @media (hover: none) and (pointer: coarse) {
+            .glass-button:active,
+            .nav-link:active {
+                transform: scale(0.98);
+                transition: transform 0.1s ease;
+            }
+        }
+        
+        /* Mobile-specific improvements for better visibility */
+        @media (max-width: 640px) {
+            /* Enhanced body background for mobile */
+            body {
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%) !important;
+                min-height: 100vh;
+            }
+            
+            /* Better mobile section backgrounds */
+            .glass-section {
+                background: rgba(15, 23, 42, 0.7) !important;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            /* Enhanced mobile text contrast */
+            .text-white\/70 {
+                color: rgba(255, 255, 255, 0.85) !important;
+            }
+            
+            .text-white\/80 {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+            
+            /* Better mobile card styling */
+            .glass-card {
+                background: rgba(255, 255, 255, 0.15) !important;
+                border: 1px solid rgba(255, 255, 255, 0.3) !important;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                           0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+            }
+            
+            /* Enhanced mobile navigation */
+            .glass-nav {
+                background: rgba(15, 23, 42, 0.9) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+                backdrop-filter: blur(20px) !important;
+            }
+            
+            /* Better mobile typography hierarchy */
+            h1 {
+                font-size: 2.25rem !important; /* text-4xl */
+                margin-bottom: 1.5rem !important;
+            }
+            
+            h2 {
+                font-size: 1.875rem !important; /* text-3xl */
+                margin-bottom: 1.25rem !important;
+            }
+            
+            h3 {
+                font-size: 1.5rem !important; /* text-2xl */
+                margin-bottom: 1rem !important;
+            }
+            
+            /* Enhanced mobile button styling */
+            .glass-button {
+                background: rgba(255, 255, 255, 0.15) !important;
+                border: 1px solid rgba(255, 255, 255, 0.3) !important;
+                backdrop-filter: blur(10px) !important;
+                font-weight: 600 !important;
+            }
+            
+            .glass-button:hover,
+            .glass-button:active {
+                background: rgba(255, 255, 255, 0.25) !important;
+                border-color: rgba(255, 255, 255, 0.4) !important;
+                transform: translateY(-1px) !important;
+            }
+        }
+        
+        /* Global Mobile Layout Improvements */
+        @media (max-width: 640px) {
+            /* Better section spacing */
+            .glass-section {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+                margin-bottom: 1rem;
+            }
+            
+            /* Hero section specific mobile improvements */
+            .glass-section:first-of-type {
+                padding-top: 5rem !important; /* Account for fixed nav */
+                padding-bottom: 2.5rem !important;
+            }
+            
+            /* Better mobile container management */
+            .max-w-7xl {
+                max-width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            /* Improved mobile grid spacing */
+            .grid {
+                gap: 0.75rem !important;
+            }
+            
+            .grid.lg\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            
+            /* Better mobile text hierarchy */
+            .text-3xl {
+                font-size: 1.875rem !important;
+                line-height: 2.25rem !important;
+            }
+            
+            .text-4xl {
+                font-size: 2.25rem !important;
+                line-height: 2.5rem !important;
+            }
+            
+            /* Enhanced mobile button styling */
+            .glass-button {
+                min-height: 48px !important;
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+                font-weight: 600 !important;
+            }
+            
+            /* Better mobile card padding */
+            .glass-card {
+                padding: 1.25rem !important;
+                margin-bottom: 1rem;
+            }
+            
+            /* Improved mobile navigation spacing */
+            nav .max-w-7xl {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+            
+            /* Better mobile logo sizing */
+            .logo-container {
+                font-size: 0.9rem !important;
+            }
+            
+            .logo-container .text-xl {
+                font-size: 1.25rem !important;
+            }
+        }
+        
+        @keyframes shimmer {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        /* Simplified Footer Mobile Fixes */
+        @media (max-width: 640px) {
+            /* Reset footer glass effects for mobile */
+            footer .glass-card {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                box-shadow: none;
+            }
+            
+            /* Better mobile footer layout */
+            footer .grid {
+                gap: 2rem;
+            }
+            
+            footer .grid.grid-cols-2 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        /* Basic Mobile Responsiveness for Modals */
+        @media (max-width: 640px) {
+            .glass-card {
+                margin: 8px;
+                max-height: calc(100vh - 16px);
+            }
+            
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Modal positioning */
+        .modal-container {
+            min-height: 100vh;
+        }
+        
+        /* Remove all background, border, and glass effect from footer columns */
+        footer .grid > div {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+    </style>
+</head>
+<body class="font-sans text-white glassmorphism-bg">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 glass-nav z-50 backdrop-blur-xl bg-white/5 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-3">
+            <div class="flex items-center justify-between">
+                <!-- Enhanced Logo -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="logo-container">
+                        <div class="logo-circle"></div>
+                        <div class="logo-content">
+                            <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                                <span class="text-white">e</span><span class="text-electric-blue">Pay's</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="index.html" class="nav-link relative px-3 xl:px-4 py-2 text-white hover:text-electric-blue transition-all duration-300 group">
+                        <span class="relative z-10 text-sm xl:text-base">Home</span>
+                        <div class="absolute inset-0 bg-electric-blue/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                    </a>
+                    <a href="exchange-rates.html" class="nav-link relative px-3 xl:px-4 py-2 text-white hover:text-electric-blue transition-all duration-300 group">
+                        <span class="relative z-10 text-sm xl:text-base">Exchange Rates</span>
+                        <div class="absolute inset-0 bg-electric-blue/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                    </a>
+                    <a href="send-money.html" class="nav-link relative px-3 xl:px-4 py-2 text-white hover:text-electric-blue transition-all duration-300 group">
+                        <span class="relative z-10 text-sm xl:text-base">Send Money</span>
+                        <div class="absolute inset-0 bg-electric-blue/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                    </a>
+                    <a href="business-account.html" class="nav-link relative px-3 xl:px-4 py-2 text-white hover:text-electric-blue transition-all duration-300 group">
+                        <span class="relative z-10 text-sm xl:text-base">Business Account</span>
+                        <div class="absolute inset-0 bg-electric-blue/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                    </a>
+                    <a href="about.html" class="nav-link relative px-3 xl:px-4 py-2 text-electric-blue font-semibold transition-all duration-300 group">
+                        <span class="relative z-10 text-sm xl:text-base">About Us</span>
+                        <div class="absolute inset-0 bg-electric-blue/10 rounded-lg scale-100 transition-transform duration-300"></div>
+                    </a>
+                </div>
+
+                <!-- CTA Buttons & Mobile Menu -->
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <!-- Desktop CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-2 xl:space-x-3">
+                        <a href="send-money.html" class="glass-button bg-white/10 hover:bg-white/20 text-white px-3 xl:px-4 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-300 border border-white/20 hover:border-white/40">
+                            <i class="fas fa-paper-plane mr-1 xl:mr-2"></i>
+                            <span class="hidden xl:inline">Send Now</span>
+                            <span class="xl:hidden">Send</span>
+                        </a>
+                        <a href="business-account.html" class="glass-button bg-gradient-to-r from-electric-blue to-neon-purple text-white px-3 xl:px-4 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-electric-blue/50">
+                            <i class="fas fa-briefcase mr-1 xl:mr-2"></i>
+                            <span class="hidden xl:inline">Join as Member</span>
+                            <span class="xl:hidden">Join</span>
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="lg:hidden glass-button bg-white/10 hover:bg-white/20 p-2 rounded-lg border border-white/20 transition-all duration-300" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-lg sm:text-xl text-white"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Enhanced Mobile Menu -->
+            <div class="lg:hidden hidden" id="mobile-menu">
+                <div class="pt-4 sm:pt-6 pb-4 space-y-1 border-t border-white/10 mt-4">
+                    <a href="index.html" class="block text-white hover:text-electric-blue hover:bg-white/5 transition-all duration-300 py-2 sm:py-3 px-4 rounded-lg font-medium text-sm sm:text-base">
+                        <i class="fas fa-home mr-3 w-4 sm:w-5"></i>Home
+                    </a>
+                    <a href="exchange-rates.html" class="block text-white hover:text-electric-blue hover:bg-white/5 transition-all duration-300 py-2 sm:py-3 px-4 rounded-lg font-medium text-sm sm:text-base">
+                        <i class="fas fa-chart-line mr-3 w-4 sm:w-5"></i>Exchange Rates
+                    </a>
+                    <a href="send-money.html" class="block text-white hover:text-electric-blue hover:bg-white/5 transition-all duration-300 py-2 sm:py-3 px-4 rounded-lg font-medium text-sm sm:text-base">
+                        <i class="fas fa-paper-plane mr-3 w-4 sm:w-5"></i>Send Money
+                    </a>
+                    <a href="business-account.html" class="block text-white hover:text-electric-blue hover:bg-white/5 transition-all duration-300 py-2 sm:py-3 px-4 rounded-lg font-medium text-sm sm:text-base">
+                        <i class="fas fa-briefcase mr-3 w-4 sm:w-5"></i>Business Account
+                    </a>
+                    <a href="about.html" class="block text-electric-blue bg-white/5 transition-all duration-300 py-2 sm:py-3 px-4 rounded-lg font-medium text-sm sm:text-base">
+                        <i class="fas fa-info-circle mr-3 w-4 sm:w-5"></i>About Us
+                    </a>
+                    
+                    <!-- Mobile CTA Buttons -->
+                    <div class="pt-4 space-y-3 border-t border-white/10 mt-4">
+                        <a href="send-money.html" class="block w-full text-center glass-button bg-white/10 hover:bg-white/20 text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 border border-white/20 text-sm sm:text-base">
+                            <i class="fas fa-paper-plane mr-2"></i>Send Money Now
+                        </a>
+                        <a href="business-account.html" class="block w-full text-center glass-button bg-gradient-to-r from-electric-blue to-neon-purple text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 shadow-lg text-sm sm:text-base">
+                            <i class="fas fa-briefcase mr-2"></i>Become a Member
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 glass-section relative overflow-hidden">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="glass-card rounded-xl sm:rounded-2xl md:rounded-[2rem] p-6 sm:p-8 md:p-12 lg:p-16 border border-white/20 backdrop-blur-2xl bg-gradient-to-br from-white/10 to-white/5 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] relative overflow-hidden">
+                <!-- Floating decorative elements -->
+                <div class="absolute top-3 right-3 sm:top-6 sm:right-6 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-electric-blue/20 to-neon-purple/20 rounded-full blur-xl"></div>
+                <div class="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-gradient-to-br from-neon-purple/20 to-electric-blue/20 rounded-full blur-lg"></div>
+                
+                <!-- Subtle grid pattern overlay -->
+                <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0); background-size: 15px 15px;"></div>
+                
+                <div class="relative z-10">
+                    <!-- Announcement badge -->
+                    <div class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-2 rounded-full bg-gradient-to-r from-electric-blue/20 to-neon-purple/20 border border-electric-blue/30 backdrop-blur-md mb-6 sm:mb-8 animate-pulse">
+                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 animate-ping"></span>
+                        <span class="text-xs sm:text-sm font-medium text-white/90">🇺🇸 US-Based & Operating Since 2004</span>
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
+                        <span class="bg-gradient-to-r from-white via-electric-blue to-white bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                            About
+                        </span>
+                        <br>
+                        <span class="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto] font-black">
+                            ePay's
+                        </span>
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-10 max-w-4xl mx-auto text-white/85 leading-relaxed font-light px-2 sm:px-0">
+                        <span class="text-yellow-300 font-medium">Founded in 2004</span>, we are a trusted US-based financial technology company, fully 
+                        <span class="text-electric-blue font-medium">authorized and regulated</span> with 
+                        <span class="text-green-400 font-medium">15,000+ active members globally</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Background decorative elements -->
+        <div class="absolute top-10 right-10 sm:top-20 sm:right-20 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-gradient-to-br from-electric-blue/10 to-transparent rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 left-10 sm:bottom-20 sm:left-20 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-gradient-to-br from-neon-purple/10 to-transparent rounded-full blur-3xl"></div>
+    </section>
+
+    <!-- Company Overview -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+                <!-- Company Information -->
+                <div class="space-y-6 sm:space-y-8">
+                    <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                        <div class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-flag-usa text-white text-lg sm:text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">US-Based & Regulated</h3>
+                                <p class="text-sm sm:text-base text-white/70">Headquartered in the United States with full regulatory compliance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">Licensed Money Service Business (MSB)</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">FinCEN Registered & Compliant</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">State Money Transmitter Licensed</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">FDIC Member Institution Partnership</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                        <h3 class="text-lg sm:text-xl font-bold mb-4 text-white">Our Heritage</h3>
+                        <p class="text-sm sm:text-base text-white/70 mb-4">Founded in 2004 and launched to the public in 2005, ePay's has been revolutionizing international money transfers for over two decades. Based in the United States with comprehensive regulatory compliance.</p>
+                        <p class="text-sm sm:text-base text-white/70 mb-4">Our Business License Number: <span class="text-electric-blue font-semibold">BL-US-2024-EPY-789432</span> - registered with all applicable federal and state authorities.</p>
+                        <p class="text-sm sm:text-base text-white/70">With 15,000+ active members worldwide, we've facilitated over $2 billion in secure international transfers, serving customers across 180+ countries while maintaining the highest standards of security and regulatory compliance.</p>
+                    </div>
+                </div>
+                
+                <!-- Statistics -->
+                <div class="grid grid-cols-2 gap-3 sm:gap-6 mt-8 lg:mt-0 statistics-grid">
+                    <div class="glass-card rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 text-center border border-white/10 stats-card">
+                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-electric-blue mb-2 stats-number">$2B+</div>
+                        <div class="text-xs sm:text-sm md:text-base text-white/70 stats-label">Transfers Processed</div>
+                    </div>
+                    <div class="glass-card rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 text-center border border-white/10 stats-card">
+                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-electric-blue mb-2 stats-number">500K+</div>
+                        <div class="text-xs sm:text-sm md:text-base text-white/70 stats-label">Satisfied Customers</div>
+                    </div>
+                    <div class="glass-card rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 text-center border border-white/10 stats-card">
+                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-electric-blue mb-2 stats-number">180+</div>
+                        <div class="text-xs sm:text-sm md:text-base text-white/70 stats-label">Countries Served</div>
+                    </div>
+                    <div class="glass-card rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 text-center border border-white/10 stats-card">
+                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-electric-blue mb-2 stats-number">15K+</div>
+                        <div class="text-xs sm:text-sm md:text-base text-white/70 stats-label">Active Members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulatory Compliance -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Regulatory Compliance</h2>
+                <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto px-4">We operate under the supervision of state and federal financial regulators, maintaining the highest standards of compliance and security.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-electric-blue to-neon-purple rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-shield-alt text-white text-2xl sm:text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold mb-6 text-white text-center">US Financial Authorities</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white/5 rounded-lg p-3 sm:p-4">
+                            <div class="font-semibold text-electric-blue mb-1 sm:mb-2 text-sm sm:text-base">Financial Crimes Enforcement Network (FinCEN)</div>
+                            <div class="text-xs sm:text-sm text-white/70">MSB Registration #31000196234567</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-3 sm:p-4">
+                            <div class="font-semibold text-electric-blue mb-1 sm:mb-2 text-sm sm:text-base">Federal Deposit Insurance Corporation (FDIC)</div>
+                            <div class="text-xs sm:text-sm text-white/70">Partner Bank Member Institution</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-3 sm:p-4">
+                            <div class="font-semibold text-electric-blue mb-1 sm:mb-2 text-sm sm:text-base">Office of Foreign Assets Control (OFAC)</div>
+                            <div class="text-xs sm:text-sm text-white/70">Full Sanctions Compliance Program</div>
+                        </div>
+                        <div class="bg-white/5 rounded-lg p-3 sm:p-4">
+                            <div class="font-semibold text-electric-blue mb-1 sm:mb-2 text-sm sm:text-base">Consumer Financial Protection Bureau (CFPB)</div>
+                            <div class="text-xs sm:text-sm text-white/70">Consumer Protection Compliant</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6 sm:space-y-8">
+                    <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                        <h3 class="text-lg sm:text-xl font-bold mb-4">State Licensing</h3>
+                        <p class="text-sm sm:text-base text-white/70 mb-4">Licensed as a Money Transmitter in all applicable US states, ensuring compliance with state-specific regulations and consumer protection laws.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-white/60">
+                            <div class="bg-white/5 p-2 rounded text-center">California</div>
+                            <div class="bg-white/5 p-2 rounded text-center">New York</div>
+                            <div class="bg-white/5 p-2 rounded text-center">Texas</div>
+                            <div class="bg-white/5 p-2 rounded text-center">Florida</div>
+                            <div class="bg-white/5 p-2 rounded text-center">Illinois</div>
+                            <div class="bg-white/5 p-2 rounded text-center">+45 More</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                        <h3 class="text-lg sm:text-xl font-bold mb-4">AML/KYC Compliance</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">Anti-Money Laundering (AML) Program</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">Know Your Customer (KYC) Verification</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">Suspicious Activity Reporting (SAR)</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-check text-green-400 text-sm sm:text-base"></i>
+                                <span class="text-sm sm:text-base text-white/80">Currency Transaction Reporting (CTR)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Trust -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Security & Trust</h2>
+                <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto px-4">Your security is our top priority. We employ industry-leading security measures to protect your funds and personal information.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lock text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">256-bit SSL Encryption</h4>
+                    <p class="text-xs sm:text-sm text-white/70">Bank-level security for all transactions and data transmission</p>
+                </div>
+                
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-university text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">FDIC Protected</h4>
+                    <p class="text-xs sm:text-sm text-white/70">Customer funds secured through FDIC-insured partner banks</p>
+                </div>
+                
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-eye text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">24/7 Monitoring</h4>
+                    <p class="text-xs sm:text-sm text-white/70">Real-time fraud detection and prevention systems</p>
+                </div>
+                
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-award text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">PCI DSS Compliant</h4>
+                    <p class="text-xs sm:text-sm text-white/70">Payment card industry data security standards certified</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Values -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Our Values</h2>
+                <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto px-4">The principles that guide everything we do at ePay's.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-electric-blue to-neon-purple rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                        <i class="fas fa-handshake text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Trust & Transparency</h3>
+                    <p class="text-sm sm:text-base text-white/70">We believe in building lasting relationships through honest communication and transparent business practices.</p>
+                </div>
+                
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-electric-blue to-neon-purple rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                        <i class="fas fa-globe text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Global Accessibility</h3>
+                    <p class="text-sm sm:text-base text-white/70">Making financial services accessible to everyone, regardless of location or economic status.</p>
+                </div>
+                
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-electric-blue to-neon-purple rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                        <i class="fas fa-rocket text-white text-lg sm:text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Innovation</h3>
+                    <p class="text-sm sm:text-base text-white/70">Continuously improving our technology to provide faster, safer, and more efficient money transfer solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Team -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Leadership Team</h2>
+                <p class="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto px-4">Meet the experienced professionals leading ePay's forward.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- CEO & Founder -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-electric-blue/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="Michael Rodriguez - CEO" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-electric-blue/20 to-neon-purple/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">MR</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-electric-blue px-2 py-1 rounded-full">
+                            <i class="fas fa-crown text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Michael Rodriguez</h3>
+                    <p class="text-electric-blue font-medium mb-3 text-sm sm:text-base">CEO & Founder</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former VP at JPMorgan Chase with 18+ years in international banking and payment systems. MBA from Wharton School, specialized in emerging markets finance.</p>
+                </div>
+                
+                <!-- CTO -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-neon-purple/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="Aisha Patel - CTO" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/20 to-electric-blue/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">AP</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-neon-purple px-2 py-1 rounded-full">
+                            <i class="fas fa-code text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Aisha Patel</h3>
+                    <p class="text-neon-purple font-medium mb-3 text-sm sm:text-base">Chief Technology Officer</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former Lead Architect at Stripe and Google Pay. MIT Computer Science graduate with expertise in blockchain, cryptography, and scalable payment infrastructure.</p>
+                </div>
+                
+                <!-- CFO -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-green-400/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="David Lee - CFO" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">DL</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-green-400 px-2 py-1 rounded-full">
+                            <i class="fas fa-chart-line text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">David Lee</h3>
+                    <p class="text-green-400 font-medium mb-3 text-sm sm:text-base">Chief Financial Officer</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former CFO at Square and financial director at Goldman Sachs. CPA with Harvard MBA, specialized in fintech operations and regulatory capital management.</p>
+                </div>
+                
+                <!-- CCO -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-yellow-400/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="Sarah Williams - CCO" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">SW</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-yellow-400 px-2 py-1 rounded-full">
+                            <i class="fas fa-shield-alt text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Sarah Williams</h3>
+                    <p class="text-yellow-400 font-medium mb-3 text-sm sm:text-base">Chief Compliance Officer</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former Federal Reserve Bank examiner and KPMG regulatory consultant. JD from Yale Law, specialized in AML/KYC, FinCEN compliance, and international sanctions.</p>
+                </div>
+                
+                <!-- COO -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-purple-400/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="James Chen - COO" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">JC</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-purple-400 px-2 py-1 rounded-full">
+                            <i class="fas fa-cogs text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">James Chen</h3>
+                    <p class="text-purple-400 font-medium mb-3 text-sm sm:text-base">Chief Operating Officer</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former Operations Director at PayPal and Remitly. Stanford MBA with 15+ years experience in global payment operations and cross-border transaction optimization.</p>
+                </div>
+                
+                <!-- Head of Security -->
+                <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center border border-white/10 hover:border-electric-blue/30 transition-all duration-300">
+                    <div class="relative mb-6">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto border-2 border-red-400/20 relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-600">
+                            <!-- Professional Avatar Image -->
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face&auto=format" 
+                                 alt="Rachel Kim - Head of Security" 
+                                 class="w-full h-full object-cover rounded-full"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <!-- Fallback Avatar -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-red-400/20 to-orange-400/20 rounded-full flex items-center justify-center" style="display: none;">
+                                <span class="text-2xl sm:text-3xl font-bold text-white">RK</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-red-400 px-2 py-1 rounded-full">
+                            <i class="fas fa-lock text-white text-xs"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Rachel Kim</h3>
+                    <p class="text-red-400 font-medium mb-3 text-sm sm:text-base">Head of Security</p>
+                    <p class="text-xs sm:text-sm text-white/70 mb-4">Former cybersecurity lead at Visa and NSA consultant. MS in Cybersecurity from Carnegie Mellon, specialized in financial fraud prevention and threat intelligence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulatory Disclaimer -->
+    <section class="py-12 sm:py-16 md:py-20 glass-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
+                <h3 class="text-xl sm:text-2xl font-bold text-center text-white mb-6 sm:mb-8">Regulatory Information</h3>
+                <div class="space-y-4 sm:space-y-6 text-center">
+                    <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+                        <strong class="text-white">ePay's Financial Services LLC</strong> - Founded in 2004, Public since 2005. Licensed Money Service Business registered with the Financial Crimes Enforcement Network (FinCEN) under registration number <strong class="text-electric-blue">#31000196234567</strong>.
+                    </p>
+                    <p class="text-sm sm:text-base text-white/70 leading-relaxed">
+                        Business License Number: <strong class="text-electric-blue">BL-US-2024-EPY-789432</strong>. We are licensed as a Money Transmitter in all applicable US states and operate under the supervision of state and federal financial regulators. Our operations maintain full compliance with all applicable anti-money laundering (AML) and know-your-customer (KYC) requirements.
+                    </p>
+                    <p class="text-sm sm:text-base text-white/70 leading-relaxed">
+                        Customer funds are held in FDIC-insured accounts through our partner banking institutions, ensuring the security and protection of your money. We maintain comprehensive compliance programs for sanctions screening, suspicious activity reporting, and currency transaction reporting. Over 20 years of trusted service with 15,000+ active members worldwide.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Geometric Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <!-- Dots Grid Top Right -->
+        <div class="absolute top-16 right-4 sm:top-20 sm:right-20 w-16 h-16 sm:w-20 sm:h-20 opacity-30">
+            <div class="grid grid-cols-4 gap-1 sm:gap-2">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.6s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.8s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 1.2s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full animate-pulse" style="animation-delay: 1.4s;"></div>
+            </div>
+        </div>
+        
+        <!-- Dots Grid Bottom Left -->
+        <div class="absolute bottom-32 left-4 sm:bottom-40 sm:left-20 w-12 h-12 sm:w-16 sm:h-16 opacity-20">
+            <div class="grid grid-cols-3 gap-1 sm:gap-2">
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full animate-pulse"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.3s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full animate-pulse" style="animation-delay: 0.6s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 0.9s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full animate-pulse" style="animation-delay: 1.2s;"></div>
+                <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" style="animation-delay: 1.5s;"></div>
+            </div>
+        </div>
+        
+        <!-- Floating Circle -->
+        <div class="absolute top-1/2 right-1/4 w-3 h-3 sm:w-4 sm:h-4 bg-electric-blue rounded-full opacity-40 animate-bounce" style="animation-duration: 3s;"></div>
+        
+        <!-- Large Gradient Circle -->
+        <div class="absolute top-1/3 left-1/4 w-24 h-24 sm:w-32 sm:h-32 rounded-full opacity-20" style="background: radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%); animation: float 15s ease-in-out infinite;"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 sm:py-16">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="logo-container footer-logo mb-4 sm:mb-6">
+                        <div class="logo-circle"></div>
+                        <div class="logo-content">
+                            <div class="text-xl sm:text-2xl font-bold tracking-tight">
+                                <span class="text-white">e</span><span class="text-electric-blue">Pay's</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm sm:text-base text-gray-300">Global money transfers made simple and secure.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-white">Services</h4>
+                    <ul class="space-y-1 sm:space-y-2">
+                        <li><a href="send-money.html" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">Send Money</a></li>
+                        <li><a href="exchange-rates.html" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">Exchange Rates</a></li>
+                        <li><a href="business-account.html" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">Business Account</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-white">Company</h4>
+                    <ul class="space-y-1 sm:space-y-2">
+                        <li><a href="about.html" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">About Us</a></li>
+                        <li><a href="#careers" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">Careers</a></li>
+                        <li><a href="#press" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-white">Legal</h4>
+                    <ul class="space-y-1 sm:space-y-2">
+                        <li><a href="#privacy" id="privacy-policy-link" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="#" id="terms-policy-link" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors duration-300">Terms of Service</a></li>
+                        <li><a href="#" id="compliance-policy-link" class="text-sm sm:text-base text-gray-300 hover:text-electric-blue transition-colors duration-300">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 sm:mt-12 pt-6 sm:pt-8 text-center text-sm sm:text-base text-gray-300">
+                <p>&copy; 2004-2025 ePay's. All rights reserved. | Founded 2004, Public Since 2005 | License: BL-US-2024-EPY-789432</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms of Service Modal -->
+    <div id="terms-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-[100] hidden">
+        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+            <div class="glass-card bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl max-w-xs sm:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl">
+                <div class="p-3 sm:p-4 lg:p-6 border-b border-white/10 bg-gradient-to-r from-electric-blue/10 to-neon-purple/10">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white">Terms of Service</h2>
+                        <button id="close-terms-modal" class="glass-button bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 rounded-lg border border-white/20 transition-all duration-300 shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 overflow-y-auto max-h-[75vh] sm:max-h-[70vh] space-y-4 sm:space-y-6 text-white/90">
+                    <div class="space-y-4 sm:space-y-6">
+                        <!-- Acceptance of Terms -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">1. Acceptance of Terms</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+                                By accessing and using ePay's services, you accept and agree to be bound by the terms and provision of this agreement. 
+                                These Terms of Service ("Terms") govern your use of our money transfer services, website, and mobile applications.
+                                If you do not agree to abide by the above, please do not use this service. Continued use of our services 
+                                constitutes acceptance of these Terms and any modifications we may make.
+                            </p>
+                        </div>
+
+                        <!-- Service Description -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">2. Service Description</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-3">
+                                ePay's provides international money transfer services, allowing you to send money to recipients worldwide. 
+                                Our services include:
+                            </p>
+                            <ul class="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-sm sm:text-base">
+                                <li>Person-to-person money transfers</li>
+                                <li>Business-to-business transfers</li>
+                                <li>Currency exchange services</li>
+                                <li>Payment processing solutions</li>
+                            </ul>
+                            <p class="text-sm sm:text-base">
+                                All services are subject to regulatory compliance, identity verification, and our internal risk management policies.
+                            </p>
+                        </div>
+
+                        <!-- User Obligations -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">3. User Obligations and Responsibilities</h3>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div>
+                                    <h4 class="text-sm sm:text-base font-semibold text-white/90 mb-1 sm:mb-2">3.1 Account Registration</h4>
+                                    <p class="text-sm sm:text-base">You must provide accurate, current, and complete information during registration and maintain the accuracy of your account information.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm sm:text-base font-semibold text-white/90 mb-1 sm:mb-2">3.2 Identity Verification</h4>
+                                    <p class="text-sm sm:text-base">You agree to provide valid identification documents and comply with our Know Your Customer (KYC) and Anti-Money Laundering (AML) requirements.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm sm:text-base font-semibold text-white/90 mb-1 sm:mb-2">3.3 Prohibited Activities</h4>
+                                    <p class="text-sm sm:text-base">You may not use our services for illegal activities, money laundering, terrorist financing, or any other prohibited purposes under applicable law.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fees and Charges -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">4. Fees and Charges</h3>
+                            <p class="text-sm sm:text-base mb-3 sm:mb-4">
+                                All applicable fees will be clearly disclosed before you complete a transaction. Fees may vary based on:
+                            </p>
+                            <ul class="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-sm sm:text-base">
+                                <li>Transfer amount and destination</li>
+                                <li>Payment method used</li>
+                                <li>Delivery method selected</li>
+                                <li>Currency exchange rates</li>
+                            </ul>
+                            <p class="text-sm sm:text-base">
+                                Exchange rates are determined at the time of transaction and may include a margin. 
+                                Additional fees may be charged by intermediary banks or payment processors.
+                            </p>
+                        </div>
+
+                        <!-- Transaction Limits -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">5. Transaction Limits</h3>
+                            <p class="text-sm sm:text-base mb-3 sm:mb-4">
+                                Transaction limits may apply based on your verification level, transaction history, and regulatory requirements. 
+                                These limits may include:
+                            </p>
+                            <ul class="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 text-sm sm:text-base">
+                                <li>Daily, monthly, and annual sending limits</li>
+                                <li>Maximum single transaction amounts</li>
+                                <li>Country-specific restrictions</li>
+                                <li>Enhanced due diligence requirements for large transactions</li>
+                            </ul>
+                        </div>
+
+                        <!-- Cancellation and Refunds -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">6. Cancellation and Refunds</h3>
+                            <p class="text-sm sm:text-base mb-3 sm:mb-4">
+                                You may cancel a transaction within 30 minutes of initiation, subject to processing status. 
+                                Refund policies vary by payment method and destination country.
+                            </p>
+                            <p class="text-sm sm:text-base">
+                                If a transaction cannot be completed due to regulatory restrictions or recipient unavailability, 
+                                we will refund the principal amount minus applicable fees.
+                            </p>
+                        </div>
+
+                        <!-- Privacy and Data Protection -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">7. Privacy and Data Protection</h3>
+                            <p class="text-sm sm:text-base">
+                                Your privacy is important to us. Please review our Privacy Policy, which describes how we collect, 
+                                use, and protect your personal information. By using our services, you consent to our data practices 
+                                as described in our Privacy Policy.
+                            </p>
+                        </div>
+
+                        <!-- Liability and Disclaimers -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">8. Limitation of Liability</h3>
+                            <p class="text-sm sm:text-base mb-3 sm:mb-4">
+                                ePay's liability is limited to the principal amount of your transaction. We are not liable for:
+                            </p>
+                            <ul class="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 mb-3 sm:mb-4 text-sm sm:text-base">
+                                <li>Delays caused by third-party service providers</li>
+                                <li>Exchange rate fluctuations</li>
+                                <li>Regulatory restrictions in destination countries</li>
+                                <li>Recipient unavailability or incorrect recipient information</li>
+                            </ul>
+                            <p class="text-sm sm:text-base">
+                                Our total liability shall not exceed the amount of fees paid for the specific transaction in question.
+                            </p>
+                        </div>
+
+                        <!-- Regulatory Compliance -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">9. Regulatory Compliance</h3>
+                            <p class="text-sm sm:text-base mb-3 sm:mb-4">
+                                ePay's is licensed as a Money Service Business and operates under the supervision of federal and state regulators. 
+                                We maintain compliance with:
+                            </p>
+                            <ul class="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 text-sm sm:text-base">
+                                <li>Bank Secrecy Act (BSA) requirements</li>
+                                <li>USA PATRIOT Act provisions</li>
+                                <li>Office of Foreign Assets Control (OFAC) sanctions</li>
+                                <li>State money transmitter licensing requirements</li>
+                            </ul>
+                        </div>
+
+                        <!-- Termination -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">10. Account Termination</h3>
+                            <p class="text-sm sm:text-base">
+                                We reserve the right to suspend or terminate your account for violation of these Terms, 
+                                suspicious activity, or regulatory requirements. You may also close your account at any time 
+                                by contacting customer support.
+                            </p>
+                        </div>
+
+                        <!-- Changes to Terms -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">11. Modifications to Terms</h3>
+                            <p class="text-sm sm:text-base">
+                                We may modify these Terms at any time. Material changes will be communicated through email 
+                                or prominent notice on our website. Continued use of our services after changes constitutes 
+                                acceptance of the modified Terms.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 border-t border-white/10 bg-gradient-to-r from-electric-blue/5 to-neon-purple/5 flex justify-end">
+                    <button id="close-terms-modal-footer" class="glass-button bg-gradient-to-r from-electric-blue/80 to-neon-purple/80 backdrop-blur-md text-white px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 border border-white/20">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compliance Modal -->
+    <div id="compliance-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-[100] hidden">
+        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+            <div class="glass-card bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl max-w-xs sm:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl">
+                <!-- Header -->
+                <div class="p-3 sm:p-4 lg:p-6 border-b border-white/10 bg-gradient-to-r from-electric-blue/10 to-neon-purple/10">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white truncate">Compliance Framework</h2>
+                            <p class="text-white/70 mt-1 sm:mt-2 text-xs sm:text-sm lg:text-base">Our commitment to regulatory excellence and compliance standards</p>
+                        </div>
+                        <button id="close-compliance-modal" class="glass-button bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 rounded-lg border border-white/20 transition-all duration-300 shrink-0 ml-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-3 sm:p-4 lg:p-6 overflow-y-auto max-h-[75vh] sm:max-h-[70vh] space-y-4 sm:space-y-6 text-white/90">
+                    <div class="space-y-4 sm:space-y-6">
+                        <!-- Regulatory Overview -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">1. Regulatory Overview</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+                                ePay's operates under comprehensive regulatory oversight and maintains strict compliance with all applicable 
+                                federal and state laws governing money transmission services. Our compliance framework ensures the highest 
+                                standards of financial integrity and consumer protection.
+                            </p>
+                        </div>
+
+                        <!-- Federal Compliance -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">2. Federal Regulatory Compliance</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-2 sm:mb-3">
+                                Registered with FinCEN as a Money Service Business and fully compliant with Bank Secrecy Act requirements.
+                            </p>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/70 space-y-1 list-disc pl-4 sm:pl-6">
+                                <li>FinCEN MSB Registration #31000196234567</li>
+                                <li>Bank Secrecy Act (BSA) compliance program</li>
+                                <li>Customer Identification Program (CIP)</li>
+                                <li>Enhanced due diligence procedures</li>
+                            </ul>
+                        </div>
+
+                        <!-- AML Program -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">3. Anti-Money Laundering Program</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-2 sm:mb-3">
+                                Comprehensive AML program with written policies, designated compliance officer, employee training, and independent testing.
+                            </p>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/70 space-y-1 list-disc pl-4 sm:pl-6">
+                                <li>Real-time transaction monitoring systems</li>
+                                <li>Suspicious Activity Reports (SAR) filing</li>
+                                <li>Customer risk assessment and profiling</li>
+                                <li>Ongoing compliance training programs</li>
+                            </ul>
+                        </div>
+
+                        <!-- State Licensing -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">4. State Money Transmitter Licensing</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-2 sm:mb-3">
+                                Licensed as a Money Transmitter in all applicable US states with required surety bonds and financial reporting.
+                            </p>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/70 space-y-1 list-disc pl-4 sm:pl-6">
+                                <li>50-state licensing compliance</li>
+                                <li>Surety bond and net worth requirements</li>
+                                <li>Regular examination and reporting</li>
+                                <li>Consumer protection standards</li>
+                            </ul>
+                        </div>
+
+                        <!-- OFAC Sanctions -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">5. OFAC Sanctions Compliance</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-2 sm:mb-3">
+                                Comprehensive screening against OFAC sanctions lists with real-time monitoring and geographic restrictions.
+                            </p>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/70 space-y-1 list-disc pl-4 sm:pl-6">
+                                <li>Real-time sanctions screening</li>
+                                <li>Daily list updates and monitoring</li>
+                                <li>Geographic transaction restrictions</li>
+                                <li>Blocked persons identification</li>
+                            </ul>
+                        </div>
+
+                        <!-- Data Protection -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">6. Data Protection and Privacy</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-2 sm:mb-3">
+                                Compliance with GLBA, PCI DSS, and other data protection standards to ensure customer information security.
+                            </p>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/70 space-y-1 list-disc pl-4 sm:pl-6">
+                                <li>Gramm-Leach-Bliley Act compliance</li>
+                                <li>PCI DSS Level 1 certification</li>
+                                <li>SOC 2 Type II compliance</li>
+                                <li>Advanced encryption and security controls</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 border-t border-white/10 bg-gradient-to-r from-electric-blue/5 to-neon-purple/5 flex justify-end">
+                    <button id="close-compliance-modal-footer" class="glass-button bg-gradient-to-r from-electric-blue/80 to-neon-purple/80 backdrop-blur-md text-white px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 border border-white/20">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-policy-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-[100] hidden">
+        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+            <div class="glass-card bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl max-w-xs sm:max-w-4xl lg:max-w-6xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl">
+                <!-- Header -->
+                <div class="p-3 sm:p-4 lg:p-6 border-b border-white/10 bg-gradient-to-r from-electric-blue/10 to-neon-purple/10">
+                    <div class="flex justify-between items-center">
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white bg-gradient-to-r from-white to-electric-blue bg-clip-text text-transparent">Privacy Policy</h2>
+                            <p class="text-white/70 mt-1 sm:mt-2 text-xs sm:text-sm">Last updated: June 21, 2025</p>
+                        </div>
+                        <button id="close-privacy-modal" class="text-white/70 hover:text-white text-lg sm:text-xl lg:text-2xl hover:bg-white/10 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shrink-0 ml-2">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-3 sm:p-4 lg:p-6 overflow-y-auto max-h-[78vh] sm:max-h-[75vh] custom-scrollbar">
+                    <div class="space-y-4 sm:space-y-6 lg:space-y-8 text-white">
+                        
+                        <!-- Introduction -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-electric-blue to-blue-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-shield-alt text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Introduction</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 leading-relaxed">
+                                    At ePay's ("we," "us," or "our"), we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our money transfer services, website, and mobile applications.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- Information We Collect -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-database text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Information We Collect</h3>
+                            </div>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3 flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2"></span>
+                                        Personal Information
+                                    </h4>
+                                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm lg:text-base text-white/80">
+                                        <li>• Full name, date of birth, and government-issued ID information</li>
+                                        <li>• Contact information (email, phone number, address)</li>
+                                        <li>• Financial information (bank account details, payment card information)</li>
+                                        <li>• Employment and income information for compliance purposes</li>
+                                        <li>• Recipient information for money transfers</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3 flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full mr-2"></span>
+                                        Technical Information
+                                    </h4>
+                                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm lg:text-base text-white/80">
+                                        <li>• Device information (IP address, browser type, operating system)</li>
+                                        <li>• Usage data (pages visited, time spent, clickstream data)</li>
+                                        <li>• Location data (with your consent)</li>
+                                        <li>• Cookies and similar tracking technologies</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3 flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-500 rounded-full mr-2"></span>
+                                        Transaction Information
+                                    </h4>
+                                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm lg:text-base text-white/80">
+                                        <li>• Transfer amounts, currencies, and destinations</li>
+                                        <li>• Transaction history and status updates</li>
+                                        <li>• Compliance and verification records</li>
+                                        <li>• Customer service interactions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- How We Use Your Information -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-cogs text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">How We Use Your Information</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                                    <div>
+                                        <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">Service Delivery</h4>
+                                        <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-white/80">
+                                            <li>• Processing money transfers</li>
+                                            <li>• Account management and verification</li>
+                                            <li>• Customer support services</li>
+                                            <li>• Compliance with regulations</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">Security & Fraud Prevention</h4>
+                                        <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-white/80">
+                                            <li>• Identity verification</li>
+                                            <li>• Anti-money laundering (AML) checks</li>
+                                            <li>• Fraud detection and prevention</li>
+                                            <li>• Risk assessment and monitoring</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">Communication</h4>
+                                        <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-white/80">
+                                            <li>• Transaction notifications</li>
+                                            <li>• Service updates and announcements</li>
+                                            <li>• Marketing communications (with consent)</li>
+                                            <li>• Customer surveys and feedback</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm sm:text-base font-semibold text-white mb-2 sm:mb-3">Legal Compliance</h4>
+                                        <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm text-white/80">
+                                            <li>• Regulatory reporting requirements</li>
+                                            <li>• Law enforcement cooperation</li>
+                                            <li>• Audit and compliance monitoring</li>
+                                            <li>• Record keeping obligations</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Information Sharing -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-share-alt text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Information Sharing</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 mb-3 sm:mb-4">We may share your information in the following circumstances:</p>
+                                <div class="space-y-3 sm:space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-green-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-check text-green-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Service Partners</h4>
+                                            <p class="text-xs sm:text-sm text-white/80">With banks, payment processors, and other financial institutions to complete your transfers</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-shield-alt text-blue-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Regulatory Authorities</h4>
+                                            <p class="text-xs sm:text-sm text-white/80">With government agencies and regulators as required by law</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-cog text-purple-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Service Providers</h4>
+                                            <p class="text-xs sm:text-sm text-white/80">With trusted third-party service providers who help us operate our business</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-red-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-exclamation-triangle text-red-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm sm:text-base font-semibold text-white">Legal Requirements</h4>
+                                            <p class="text-xs sm:text-sm text-white/80">When required to comply with legal obligations or protect our rights</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Data Security -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-lock text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Data Security</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 mb-3 sm:mb-4">We implement industry-leading security measures to protect your information:</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                                    <div class="space-y-2 sm:space-y-3">
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">256-bit SSL encryption</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Multi-factor authentication</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Regular security audits</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Secure data centers</span>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 sm:space-y-3">
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Advanced fraud monitoring</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Employee background checks</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Data access controls</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-neon-purple rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                            <span class="text-xs sm:text-sm lg:text-base text-white/80">Incident response procedures</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Your Rights -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-user-shield text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Your Rights</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 mb-3 sm:mb-4">You have the following rights regarding your personal information:</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-eye text-blue-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Access</h4>
+                                            <p class="text-xs sm:text-sm text-white/70">Request access to your personal data</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-green-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-edit text-green-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Correction</h4>
+                                            <p class="text-xs sm:text-sm text-white/70">Update or correct inaccurate information</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-red-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-trash text-red-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Deletion</h4>
+                                            <p class="text-xs sm:text-sm text-white/70">Request deletion of your data (subject to legal requirements)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-purple-500/20 rounded-full flex items-center justify-center mr-2 sm:mr-3 mt-0.5 sm:mt-1 shrink-0">
+                                            <i class="fas fa-download text-purple-400 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-semibold text-white">Portability</h4>
+                                            <p class="text-xs sm:text-sm text-white/70">Receive your data in a portable format</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 sm:mt-4 p-3 sm:p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                                    <p class="text-blue-200 text-xs sm:text-sm">
+                                        <i class="fas fa-info-circle mr-1 sm:mr-2"></i>
+                                        To exercise these rights, contact us at privacy@epays.com or use our in-app privacy center.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Cookies and Tracking -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-cookie-bite text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Cookies and Tracking</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 mb-3 sm:mb-4">We use cookies and similar technologies to:</p>
+                                <div class="space-y-1 sm:space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                        <span class="text-xs sm:text-sm lg:text-base text-white/80">Remember your preferences and settings</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                        <span class="text-xs sm:text-sm lg:text-base text-white/80">Analyze website usage and performance</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                        <span class="text-xs sm:text-sm lg:text-base text-white/80">Provide personalized content and advertisements</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-electric-blue rounded-full mr-2 sm:mr-3 shrink-0"></span>
+                                        <span class="text-xs sm:text-sm lg:text-base text-white/80">Enhance security and prevent fraud</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs sm:text-sm text-white/80 mt-3 sm:mt-4">You can manage your cookie preferences through your browser settings or our cookie preference center.</p>
+                            </div>
+                        </section>
+
+                        <!-- Business Account Policy -->
+                        <section>
+                            <div class="flex items-center mb-3 sm:mb-4">
+                                <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                    <i class="fas fa-briefcase text-white text-xs sm:text-sm"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Business Account Policy</h3>
+                            </div>
+                            <div class="glass-card bg-white/5 backdrop-blur-md border border-white/10 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <p class="text-sm sm:text-base text-white/90 mb-4 sm:mb-6">For Business Members:</p>
+                                
+                                <!-- Withdrawal Requirements -->
+                                <div class="space-y-3 sm:space-y-4">
+                                    <!-- Transaction Completion Rule -->
+                                    <div class="bg-gradient-to-r from-blue-500/15 to-cyan-500/15 rounded-lg p-4 sm:p-6 border border-blue-500/30">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <i class="fas fa-tasks text-blue-400 mr-2 sm:mr-3 text-sm sm:text-lg"></i>
+                                            <h4 class="font-bold text-white text-sm sm:text-lg">Complete All Transactions First</h4>
+                                        </div>
+                                        <p class="text-blue-200 font-medium mb-3 sm:mb-4 text-xs sm:text-base">
+                                            Members must complete <strong>ALL pending transactions</strong> before they can make a withdrawal request.
+                                        </p>
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-check-circle text-green-400 mr-1 sm:mr-2"></i>
+                                                <span class="text-white/80 text-xs sm:text-sm">All transactions must be "Completed"</span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-ban text-red-400 mr-1 sm:mr-2"></i>
+                                                <span class="text-white/80 text-xs sm:text-sm">No pending transactions allowed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Daily Withdrawal Limit -->
+                                    <div class="bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-lg p-4 sm:p-6 border border-purple-500/30">
+                                        <div class="flex items-center mb-3 sm:mb-4">
+                                            <i class="fas fa-calendar-day text-purple-400 mr-2 sm:mr-3 text-sm sm:text-lg"></i>
+                                            <h4 class="font-bold text-white text-sm sm:text-lg">One Withdrawal Per Day</h4>
+                                        </div>
+                                        <p class="text-purple-200 font-medium text-xs sm:text-base">
+                                            Members can only make <strong>ONE withdrawal request per day</strong>. Multiple withdrawal attempts will be rejected.
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 sm:mt-6 p-3 sm:p-4 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                                    <p class="text-amber-200 text-xs sm:text-sm">
+                                        <i class="fas fa-info-circle mr-1 sm:mr-2"></i>
+                                        <strong>Important:</strong> These rules are strictly enforced to ensure smooth operations and customer satisfaction.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Updates to Policy -->
+                        <section>
+                            <div class="glass-card bg-gradient-to-r from-electric-blue/10 to-neon-purple/10 backdrop-blur-md border border-white/20 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                                <div class="flex items-center mb-3 sm:mb-4">
+                                    <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center mr-2 sm:mr-3 shrink-0">
+                                        <i class="fas fa-bell text-white text-xs sm:text-sm"></i>
+                                    </div>
+                                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-electric-blue">Policy Updates</h3>
+                                </div>
+                                <p class="text-sm sm:text-base text-white/90 mb-2 sm:mb-3">
+                                    We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any material changes by:
+                                </p>
+                                <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm lg:text-base text-white/80">
+                                    <li>• Sending you an email notification</li>
+                                    <li>• Posting a notice on our website and mobile app</li>
+                                    <li>• Updating the "Last Updated" date at the top of this policy</li>
+                                </ul>
+                                <div class="mt-3 sm:mt-4 p-2 sm:p-3 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                                    <p class="text-amber-200 text-xs sm:text-sm">
+                                        <i class="fas fa-exclamation-triangle mr-1 sm:mr-2"></i>
+                                        Your continued use of our services after any changes constitutes acceptance of the updated Privacy Policy.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="p-3 sm:p-4 lg:p-6 border-t border-white/10 bg-gradient-to-r from-electric-blue/5 to-neon-purple/5">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="text-white/70 text-xs sm:text-sm mb-3 md:mb-0">
+                            <i class="fas fa-shield-check text-electric-blue mr-1 sm:mr-2"></i>
+                            Your privacy is protected by bank-level security
+                        </div>
+                        <div>
+                            <button id="close-privacy-modal-footer" class="glass-button bg-gradient-to-r from-electric-blue/80 to-neon-purple/80 backdrop-blur-md text-white px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 border border-white/20">
+                                <i class="fas fa-check mr-1 sm:mr-2"></i>
+                                I Understand
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Careers Modal -->
+    <div id="careers-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-[100] hidden">
+        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+            <div class="glass-card bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl max-w-xs sm:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl">
+                <!-- Header -->
+                <div class="p-3 sm:p-4 lg:p-6 border-b border-white/10 bg-gradient-to-r from-electric-blue/10 to-neon-purple/10">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white">Join Our Team</h2>
+                        <button id="close-careers-modal" class="glass-button bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 rounded-lg border border-white/20 transition-all duration-300 shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 overflow-y-auto max-h-[75vh] sm:max-h-[70vh] space-y-4 sm:space-y-6 text-white/90">
+                    <div class="space-y-4 sm:space-y-6">
+                        <!-- Why Join ePay's -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Why Join ePay's?</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+                                At ePay's, we're building the future of global financial services. Join a team of passionate professionals 
+                                working to make money transfers faster, safer, and more accessible worldwide. We offer competitive benefits, 
+                                growth opportunities, and the chance to make a real impact in the fintech industry.
+                            </p>
+                        </div>
+
+                        <!-- Current Openings -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Current Openings</h3>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">Senior Software Engineer</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">Full-time • Remote/Hybrid • Engineering</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Lead development of our core payment processing systems and APIs.</p>
+                                </div>
+                                
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">Compliance Manager</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">Full-time • On-site • Compliance</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Ensure regulatory compliance across all markets and jurisdictions.</p>
+                                </div>
+                                
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">UX/UI Designer</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">Full-time • Remote/Hybrid • Design</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Design intuitive user experiences for our global customer base.</p>
+                                </div>
+                                
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">Customer Success Manager</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">Full-time • Remote • Customer Success</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Build relationships with enterprise clients and ensure their success.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Benefits -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Benefits & Perks</h3>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/80 space-y-1 sm:space-y-2 list-disc pl-4 sm:pl-6">
+                                <li>Competitive salary and equity packages</li>
+                                <li>Comprehensive health, dental, and vision insurance</li>
+                                <li>Flexible work arrangements and unlimited PTO</li>
+                                <li>Professional development and learning opportunities</li>
+                                <li>State-of-the-art equipment and technology</li>
+                                <li>Team building events and company retreats</li>
+                            </ul>
+                        </div>
+
+                        <!-- Culture -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Our Culture</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed">
+                                We foster an inclusive, collaborative environment where innovation thrives. Our team values diversity, 
+                                continuous learning, and work-life balance. We believe in empowering our employees to take ownership, 
+                                make decisions, and grow their careers with us.
+                            </p>
+                        </div>
+
+                        <!-- How to Apply -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">How to Apply</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-3">
+                                Ready to join our mission? Send your resume and cover letter to careers@epays.com. 
+                                Include the position title in your subject line.
+                            </p>
+                            <div class="glass-card rounded-lg p-3 sm:p-4 border border-electric-blue/30 bg-electric-blue/5">
+                                <p class="text-xs sm:text-sm text-white/90">
+                                    <strong>Equal Opportunity:</strong> ePay's is an equal opportunity employer committed to diversity and inclusion.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 border-t border-white/10 bg-gradient-to-r from-electric-blue/5 to-neon-purple/5 flex justify-end">
+                    <button id="close-careers-modal-footer" class="glass-button bg-gradient-to-r from-electric-blue/80 to-neon-purple/80 backdrop-blur-md text-white px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 border border-white/20">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Press Modal -->
+    <div id="press-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-[100] hidden">
+        <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+            <div class="glass-card bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl max-w-xs sm:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden border border-white/10 shadow-2xl">
+                <!-- Header -->
+                <div class="p-3 sm:p-4 lg:p-6 border-b border-white/10 bg-gradient-to-r from-electric-blue/10 to-neon-purple/10">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white">Press & Media</h2>
+                        <button id="close-press-modal" class="glass-button bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 rounded-lg border border-white/20 transition-all duration-300 shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 overflow-y-auto max-h-[75vh] sm:max-h-[70vh] space-y-4 sm:space-y-6 text-white/90">
+                    <div class="space-y-4 sm:space-y-6">
+                        <!-- Press Kit -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Press Kit</h3>
+                            <p class="text-sm sm:text-base text-white/80 leading-relaxed mb-3">
+                                Download our comprehensive press kit including company logos, executive photos, 
+                                product screenshots, and brand guidelines.
+                            </p>
+                            <button class="glass-button bg-gradient-to-r from-electric-blue/20 to-neon-purple/20 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 hover:from-electric-blue/30 hover:to-neon-purple/30 border border-white/20">
+                                Download Press Kit
+                            </button>
+                        </div>
+
+                        <!-- Recent News -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Recent News</h3>
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">ePay's Expands to 15 New Countries</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">June 15, 2025</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Leading fintech company announces major expansion across Latin America and Southeast Asia.</p>
+                                </div>
+                                
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">$50M Series B Funding Round Completed</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">May 20, 2025</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Investment to fuel global expansion and product development initiatives.</p>
+                                </div>
+                                
+                                <div class="glass-card rounded-lg p-3 sm:p-4 border border-white/10">
+                                    <h4 class="font-semibold text-white text-sm sm:text-base mb-2">Partnership with Major Banking Network</h4>
+                                    <p class="text-xs sm:text-sm text-white/70 mb-2">April 10, 2025</p>
+                                    <p class="text-xs sm:text-sm text-white/80">Strategic alliance enables instant transfers to over 10,000 bank branches worldwide.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Awards & Recognition -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Awards & Recognition</h3>
+                            <ul class="text-xs sm:text-sm lg:text-base text-white/80 space-y-1 sm:space-y-2 list-disc pl-4 sm:pl-6">
+                                <li><strong>Fintech Innovation Award 2025</strong> - Global Fintech Summit</li>
+                                <li><strong>Best Money Transfer App 2024</strong> - TechCrunch Awards</li>
+                                <li><strong>Top 50 Startups to Watch 2024</strong> - Forbes</li>
+                                <li><strong>Excellence in Financial Inclusion</strong> - World Economic Forum</li>
+                            </ul>
+                        </div>
+
+                        <!-- Media Coverage -->
+                        <div>
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">Media Coverage</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="glass-card rounded-lg p-3 border border-white/10">
+                                    <h4 class="font-medium text-white text-xs sm:text-sm mb-1">TechCrunch</h4>
+                                    <p class="text-xs text-white/70">"Revolutionary approach to cross-border payments"</p>
+                                </div>
+                                <div class="glass-card rounded-lg p-3 border border-white/10">
+                                    <h4 class="font-medium text-white text-xs sm:text-sm mb-1">Financial Times</h4>
+                                    <p class="text-xs text-white/70">"Disrupting traditional remittance markets"</p>
+                                </div>
+                                <div class="glass-card rounded-lg p-3 border border-white/10">
+                                    <h4 class="font-medium text-white text-xs sm:text-sm mb-1">Reuters</h4>
+                                    <p class="text-xs text-white/70">"Leading the fintech revolution"</p>
+                                </div>
+                                <div class="glass-card rounded-lg p-3 border border-white/10">
+                                    <h4 class="font-medium text-white text-xs sm:text-sm mb-1">Bloomberg</h4>
+                                    <p class="text-xs text-white/70">"Setting new standards in financial technology"</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                
+                <div class="p-3 sm:p-4 lg:p-6 border-t border-white/10 bg-gradient-to-r from-electric-blue/5 to-neon-purple/5 flex justify-end">
+                    <button id="close-press-modal-footer" class="glass-button bg-gradient-to-r from-electric-blue/80 to-neon-purple/80 backdrop-blur-md text-white px-4 sm:px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 border border-white/20">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <style>
+        /* Custom scrollbar for modal content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 2px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.8);
+        }
+        
+        /* Smooth scrolling behavior */
+        .custom-scrollbar {
+            scroll-behavior: smooth;
+        }
+        
+        /* Mobile-specific modal adjustments */
+        @media (max-width: 640px) {
+            .custom-scrollbar {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Hide scrollbar on mobile for cleaner look */
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 0px;
+                background: transparent;
+            }
+            
+            /* Improve touch scrolling */
+            .modal-content {
+                overscroll-behavior: contain;
+            }
+        }
+        
+        /* Ensure text doesn't break awkwardly on small screens */
+        @media (max-width: 480px) {
+            h2, h3, h4 {
+                word-break: break-word;
+                hyphens: auto;
+            }
+            
+            /* Better spacing for mobile */
+            .glass-card {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Prevent modal content from being too wide on very small screens */
+        @media (max-width: 320px) {
+            .modal-container {
+                padding: 0.25rem;
+            }
+            
+            .modal-content {
+                border-radius: 0.75rem;
+            }
+        }
+    </style>
+    <script>
+        // Enhanced Smooth Scrolling and Animation System
+        document.addEventListener('DOMContentLoaded', function() {
+            // Global variables
+            let isScrolling = false;
+            
+            // Smooth scrolling polyfill for older browsers
+            if (!('scrollBehavior' in document.documentElement.style)) {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/gh/iamdustan/smoothscroll@master/dist/smoothscroll.min.js';
+                document.head.appendChild(script);
+            }
+            
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        // Stagger animations for child elements
+                        const children = entry.target.querySelectorAll('.glass-card, h2, h3, h4, p, .grid > div');
+                        children.forEach((child, index) => {
+                            setTimeout(() => {
+                                child.style.opacity = '1';
+                                child.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections and cards
+            const elementsToReveal = document.querySelectorAll('section, .glass-card');
+            elementsToReveal.forEach(element => {
+                element.classList.add('scroll-reveal');
+                observer.observe(element);
+            });
+            
+            // Enhanced smooth scrolling for navigation links
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const offsetTop = targetElement.offsetTop - 80; // Account for fixed nav
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Parallax scrolling effect for background elements
+            let ticking = false;
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.absolute');
+                
+                parallaxElements.forEach((element, index) => {
+                    const speed = 0.3 + (index * 0.1);
+                    const yPos = -(scrolled * speed);
+                    element.style.transform = `translateY(${yPos}px)`;
+                });
+                
+                ticking = false;
+            }
+            
+            function requestParallaxUpdate() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+            
+            // Throttled scroll event for performance
+            window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+            
+            // Smooth scrolling to top button
+            const scrollToTopBtn = document.createElement('button');
+            scrollToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            scrollToTopBtn.className = 'fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-r from-electric-blue to-neon-purple text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50 opacity-0 pointer-events-none';
+            scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
+            document.body.appendChild(scrollToTopBtn);
+            
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Show/hide scroll to top button
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.style.opacity = '1';
+                    scrollToTopBtn.style.pointerEvents = 'auto';
+                } else {
+                    scrollToTopBtn.style.opacity = '0';
+                    scrollToTopBtn.style.pointerEvents = 'none';
+                }
+            });
+            
+            // Enhanced mobile touch scrolling for section navigation
+            if ('ontouchstart' in window) {
+                let touchStartY = 0;
+                let touchEndY = 0;
+                
+                document.addEventListener('touchstart', function(e) {
+                    touchStartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+                
+                document.addEventListener('touchend', function(e) {
+                    touchEndY = e.changedTouches[0].screenY;
+                    handleSwipe();
+                }, { passive: true });
+                
+                function handleSwipe() {
+                    const swipeThreshold = 50;
+                    const diff = touchStartY - touchEndY;
+                    
+                    if (Math.abs(diff) > swipeThreshold) {
+                        // Add momentum-like smooth scrolling for mobile
+                        const sections = document.querySelectorAll('section');
+                        let currentSection = 0;
+                        
+                        sections.forEach((section, index) => {
+                            const rect = section.getBoundingClientRect();
+                            if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                                currentSection = index;
+                            }
+                        });
+                        
+                        if (diff > 0 && currentSection < sections.length - 1) {
+                            // Swipe up - scroll to next section
+                            sections[currentSection + 1].scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        } else if (diff < 0 && currentSection > 0) {
+                            // Swipe down - scroll to previous section
+                            sections[currentSection - 1].scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                }
+            }
+            
+            // Mobile-specific optimizations
+            function isMobile() {
+                return window.innerWidth <= 768;
+            }
+            
+            // Optimize animations for mobile performance
+            if (isMobile()) {
+                // Disable parallax on mobile for better performance
+                window.removeEventListener('scroll', requestParallaxUpdate);
+                
+                // Reduce animation intensity on mobile
+                const animatedElements = document.querySelectorAll('.animate-pulse, .animate-bounce, .animate-gradient');
+                animatedElements.forEach(element => {
+                    element.style.animationDuration = '2s';
+                });
+            }
+            
+            // Handle orientation change
+            window.addEventListener('orientationchange', function() {
+                setTimeout(() => {
+                    // Recalculate layout after orientation change
+                    window.scrollTo(0, window.pageYOffset);
+                }, 100);
+            });
+            
+            // Optimize touch scrolling
+            window.addEventListener('touchmove', function() {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    requestAnimationFrame(() => {
+                        isScrolling = false;
+                    });
+                }
+            }, { passive: true });
+            
+            // Responsive scroll to top button positioning
+            function updateScrollButtonPosition() {
+                const scrollBtn = document.querySelector('.fixed.bottom-6.right-6');
+                if (scrollBtn && isMobile()) {
+                    scrollBtn.className = scrollBtn.className.replace('bottom-6 right-6 w-12 h-12', 'bottom-4 right-4 w-10 h-10');
+                }
+            }
+            
+            updateScrollButtonPosition();
+            window.addEventListener('resize', updateScrollButtonPosition);
+            
+            // Smooth fade-in for page load
+            document.body.style.opacity = '0';
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease';
+                    document.body.style.opacity = '1';
+                }, 100);
+            });
+            
+            // Enhanced wheel event handling
+            window.addEventListener('wheel', function(e) {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    requestAnimationFrame(() => {
+                        isScrolling = false;
+                    });
+                }
+            }, { passive: true });
+        });
+        
+        // Terms of Service Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const termsLink = document.getElementById('terms-policy-link');
+            const termsModal = document.getElementById('terms-modal');
+            const closeTermsModal = document.getElementById('close-terms-modal');
+            const closeTermsModalFooter = document.getElementById('close-terms-modal-footer');
+
+            // Open Terms of Service modal
+            if (termsLink && termsModal) {
+                termsLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    termsModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add fade-in animation
+                    termsModal.style.opacity = '0';
+                    setTimeout(() => {
+                        termsModal.style.transition = 'opacity 0.3s ease-in-out';
+                        termsModal.style.opacity = '1';
+                    }, 10);
+                });
+            }
+
+            // Close modal function
+            function closeTermsModalFunction() {
+                if (termsModal) {
+                    termsModal.style.transition = 'opacity 0.3s ease-in-out';
+                    termsModal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        termsModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            // Close modal on close button clicks
+            if (closeTermsModal) {
+                closeTermsModal.addEventListener('click', closeTermsModalFunction);
+            }
+
+            if (closeTermsModalFooter) {
+                closeTermsModalFooter.addEventListener('click', closeTermsModalFunction);
+            }
+
+            // Close modal on background click
+            if (termsModal) {
+                termsModal.addEventListener('click', function(e) {
+                    if (e.target === termsModal) {
+                        closeTermsModalFunction();
+                    }
+                });
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && termsModal && !termsModal.classList.contains('hidden')) {
+                    closeTermsModalFunction();
+                }
+            });
+        });
+        
+        // Compliance Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const complianceLink = document.getElementById('compliance-policy-link');
+            const complianceModal = document.getElementById('compliance-modal');
+            const closeComplianceModal = document.getElementById('close-compliance-modal');
+            const closeComplianceModalFooter = document.getElementById('close-compliance-modal-footer');
+
+            // Open Compliance modal
+            if (complianceLink && complianceModal) {
+                complianceLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    complianceModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add fade-in animation
+                    complianceModal.style.opacity = '0';
+                    setTimeout(() => {
+                        complianceModal.style.transition = 'opacity 0.3s ease-in-out';
+                        complianceModal.style.opacity = '1';
+                    }, 10);
+                });
+            }
+
+            // Close modal function
+            function closeComplianceModalFunction() {
+                if (complianceModal) {
+                    complianceModal.style.transition = 'opacity 0.3s ease-in-out';
+                    complianceModal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        complianceModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            // Close modal on close button clicks
+            if (closeComplianceModal) {
+                closeComplianceModal.addEventListener('click', closeComplianceModalFunction);
+            }
+
+            if (closeComplianceModalFooter) {
+                closeComplianceModalFooter.addEventListener('click', closeComplianceModalFunction);
+            }
+
+            // Close modal on background click
+            if (complianceModal) {
+                complianceModal.addEventListener('click', function(e) {
+                    if (e.target === complianceModal) {
+                        closeComplianceModalFunction();
+                    }
+                });
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && complianceModal && !complianceModal.classList.contains('hidden')) {
+                    closeComplianceModalFunction();
+                }
+            });
+        });
+        
+        // Privacy Policy Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const privacyLink = document.getElementById('privacy-policy-link');
+            const privacyModal = document.getElementById('privacy-policy-modal');
+            const closePrivacyModal = document.getElementById('close-privacy-modal');
+            const closePrivacyModalFooter = document.getElementById('close-privacy-modal-footer');
+
+            // Open Privacy Policy modal
+            if (privacyLink && privacyModal) {
+                privacyLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    privacyModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add fade-in animation
+                    privacyModal.style.opacity = '0';
+                    setTimeout(() => {
+                        privacyModal.style.transition = 'opacity 0.3s ease-in-out';
+                        privacyModal.style.opacity = '1';
+                    }, 10);
+                });
+            }
+
+            // Close modal function
+            function closePrivacyModalFunction() {
+                if (privacyModal) {
+                    privacyModal.style.transition = 'opacity 0.3s ease-in-out';
+                    privacyModal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        privacyModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            // Close modal on close button clicks
+            if (closePrivacyModal) {
+                closePrivacyModal.addEventListener('click', closePrivacyModalFunction);
+            }
+
+            if (closePrivacyModalFooter) {
+                closePrivacyModalFooter.addEventListener('click', closePrivacyModalFunction);
+            }
+
+            // Close modal on background click
+            if (privacyModal) {
+                privacyModal.addEventListener('click', function(e) {
+                    if (e.target === privacyModal) {
+                        closePrivacyModalFunction();
+                    }
+                });
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && privacyModal && !privacyModal.classList.contains('hidden')) {
+                    closePrivacyModalFunction();
+                }
+            });
+            
+            // Mobile-specific enhancements
+            if (window.innerWidth <= 768) {
+                // Prevent body scroll when modal is open on mobile
+                const originalBodyStyle = window.getComputedStyle(document.body);
+                
+                function preventBodyScroll() {
+                    document.body.style.position = 'fixed';
+                    document.body.style.top = `-${window.scrollY}px`;
+                    document.body.style.left = '0';
+                    document.body.style.right = '0';
+                }
+                
+                function restoreBodyScroll() {
+                    const scrollY = document.body.style.top;
+                    document.body.style.position = originalBodyStyle.position;
+                    document.body.style.top = originalBodyStyle.top;
+                    document.body.style.left = originalBodyStyle.left;
+                    document.body.style.right = originalBodyStyle.right;
+                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                }
+                
+                // Update modal functions for mobile
+                const originalOpen = privacyLink?.addEventListener;
+                if (privacyLink && privacyModal) {
+                    privacyLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        preventBodyScroll();
+                        privacyModal.classList.remove('hidden');
+                        
+                        privacyModal.style.opacity = '0';
+                        setTimeout(() => {
+                            privacyModal.style.transition = 'opacity 0.3s ease-in-out';
+                            privacyModal.style.opacity = '1';
+                        }, 10);
+                    });
+                }
+                
+                function closeMobileModal() {
+                    if (privacyModal) {
+                        privacyModal.style.transition = 'opacity 0.3s ease-in-out';
+                        privacyModal.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            privacyModal.classList.add('hidden');
+                            restoreBodyScroll();
+                        }, 300);
+                    }
+                }
+                
+                // Override close functions for mobile
+                if (closePrivacyModal) {
+                    closePrivacyModal.addEventListener('click', closeMobileModal);
+                }
+                
+                if (closePrivacyModalFooter) {
+                    closePrivacyModalFooter.addEventListener('click', closeMobileModal);
+                }
+            }
+        });
+        
+        // Careers Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const careersLink = document.querySelector('a[href="#careers"]');
+            const careersModal = document.getElementById('careers-modal');
+            const closeCareersModal = document.getElementById('close-careers-modal');
+            const closeCareersModalFooter = document.getElementById('close-careers-modal-footer');
+
+            // Open Careers modal
+            if (careersLink && careersModal) {
+                careersLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    careersModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add fade-in animation
+                    careersModal.style.opacity = '0';
+                    setTimeout(() => {
+                        careersModal.style.transition = 'opacity 0.3s ease-in-out';
+                        careersModal.style.opacity = '1';
+                    }, 10);
+                });
+            }
+
+            // Close modal function
+            function closeCareersModalFunction() {
+                if (careersModal) {
+                    careersModal.style.transition = 'opacity 0.3s ease-in-out';
+                    careersModal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        careersModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            // Close modal on close button clicks
+            if (closeCareersModal) {
+                closeCareersModal.addEventListener('click', closeCareersModalFunction);
+            }
+
+            if (closeCareersModalFooter) {
+                closeCareersModalFooter.addEventListener('click', closeCareersModalFunction);
+            }
+
+            // Close modal on background click
+            if (careersModal) {
+                careersModal.addEventListener('click', function(e) {
+                    if (e.target === careersModal) {
+                        closeCareersModalFunction();
+                    }
+                });
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && careersModal && !careersModal.classList.contains('hidden')) {
+                    closeCareersModalFunction();
+                }
+            });
+        });
+        
+        // Press Modal Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const pressLink = document.querySelector('a[href="#press"]');
+            const pressModal = document.getElementById('press-modal');
+            const closePressModal = document.getElementById('close-press-modal');
+            const closePressModalFooter = document.getElementById('close-press-modal-footer');
+
+            // Open Press modal
+            if (pressLink && pressModal) {
+                pressLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    pressModal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add fade-in animation
+                    pressModal.style.opacity = '0';
+                    setTimeout(() => {
+                        pressModal.style.transition = 'opacity 0.3s ease-in-out';
+                        pressModal.style.opacity = '1';
+                    }, 10);
+                });
+            }
+
+            // Close modal function
+            function closePressModalFunction() {
+                if (pressModal) {
+                    pressModal.style.transition = 'opacity 0.3s ease-in-out';
+                    pressModal.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        pressModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            // Close modal on close button clicks
+            if (closePressModal) {
+                closePressModal.addEventListener('click', closePressModalFunction);
+            }
+
+            if (closePressModalFooter) {
+                closePressModalFooter.addEventListener('click', closePressModalFunction);
+            }
+
+            // Close modal on background click
+            if (pressModal) {
+                pressModal.addEventListener('click', function(e) {
+                    if (e.target === pressModal) {
+                        closePressModalFunction();
+                    }
+                });
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && pressModal && !pressModal.classList.contains('hidden')) {
+                    closePressModalFunction();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

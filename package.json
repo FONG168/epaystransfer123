@@ -1,0 +1,27 @@
+{
+  "name": "epay-app",
+  "version": "1.0.0",
+  "description": "ePay - Transfer Money Globally",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "start": "npx serve .",
+    "preview": "npx serve ."
+  },
+  "keywords": [
+    "epay",
+    "money-transfer",
+    "fintech",
+    "payments",
+    "global-transfer"
+  ],
+  "author": "ePay Team",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

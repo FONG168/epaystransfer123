@@ -1,0 +1,1867 @@
+/* Dashboard Styles */
+:root {
+    --electric-blue: #00bfff;
+    --neon-purple: #9d4edd;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+}
+
+/* Glass morphism effects */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: none !important;
+    background-size: cover;
+    /* Remove any transform or scale on hover/touch */
+    transition: none !important;
+}
+
+.glass-card:hover, .glass-card:focus, .glass-card:active {
+    transform: none !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10); /* keep shadow but no zoom */
+}
+
+.glass-card-mini {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.75rem;    border-radius: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.glass-card-mini:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--electric-blue);
+    transform: translateY(-2px);
+}
+
+/* Navigation styles */
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+.nav-item.active,
+.nav-item:hover {
+    color: var(--electric-blue);
+    background: rgba(0, 191, 255, 0.1);
+}
+
+/* Level cards */
+.level-card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.level-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 191, 255, 0.2);
+}
+
+.level-card.active {
+    border-color: var(--electric-blue);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+}
+
+.level-card.locked {
+    opacity: 0.8;
+    filter: grayscale(0.3);
+    cursor: pointer;
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+    position: relative;
+}
+
+.level-card.locked:hover {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+    border-color: rgba(239, 68, 68, 0.6);
+}
+
+.level-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.level-card:hover::before {
+    left: 100%;
+}
+
+.level-card .absolute {
+    position: absolute;
+}
+
+/* Level locked due to insufficient balance */
+.level-card.balance-locked {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.level-card.balance-locked .deposit-amount {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* Progress bars */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Processing Indicator Styles */
+.processing-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00bfff;
+    border-radius: 50%;
+    margin: 0 4px;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--electric-blue) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--electric-blue);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-purple);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .glass-card {
+        margin: 0 0.5rem;
+    }
+    
+    .nav-item span {
+        font-size: 0.625rem;
+    }
+}
+
+/* Extra small devices responsive breakpoint */
+@media (min-width: 375px) {
+  .xs\:inline { display: inline !important; }
+}
+
+/* Additional mobile improvements for market page */
+@media (max-width: 480px) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Improve transaction row spacing on very small screens */
+  .transaction-row {
+    padding: 0.5rem 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Better touch targets for navigation */
+  .nav-item {
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+}
+
+/* Landscape mode adjustments for tablets */
+@media (max-width: 1024px) and (orientation: landscape) {
+  main {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+  }
+  
+  header {
+    height: 60px;
+  }
+  
+  nav {
+    height: 60px;
+  }
+}
+
+/* Button styles */
+.btn-primary {
+    background: linear-gradient(45deg, var(--electric-blue), var(--neon-purple));
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--electric-blue);
+}
+
+/* Modal styles */
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+/* Professional Modal Styles */
+.deposit-modal input[type="number"] {
+    background: rgba(55, 65, 81, 0.7);
+    border: 2px solid rgba(107, 114, 128, 0.5);
+    color: white;
+    font-size: 1.125rem;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.deposit-modal input[type="number"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: rgba(55, 65, 81, 0.9);
+}
+
+.processing-animation {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.success-checkmark {
+    animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Status indicators */
+.status-active {
+    color: #10b981;
+}
+
+.status-pending {
+    color: #f59e0b;
+}
+
+.status-locked {
+    color: #6b7280;
+}
+
+/* Currency pair styles */
+.currency-pair {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.currency-flag {
+    width: 1.5rem;
+    height: 1rem;
+    border-radius: 0.125rem;
+    object-fit: cover;
+}
+
+/* Task completion styles */
+.task-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    border-color: var(--electric-blue);
+    box-shadow: 0 8px 25px rgba(0, 191, 255, 0.15);
+}
+
+.task-complete {
+    background: linear-gradient(45deg, #10b981, #059669);
+    border-color: #10b981;
+}
+
+/* Loading spinner */
+.spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--electric-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile responsive improvements for chat cards */
+@media (max-width: 640px) {
+    #chat-input-area .bank-details-card,
+    #chat-input-area .crypto-details-card,
+    #chat-input-area .deposit-summary-card {
+        border-radius: 8px;
+        max-height: 250px;
+    }
+    
+    #chat-input-area .card-header {
+        padding: 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    #chat-input-area .card-body {
+        padding: 0.75rem;
+    }
+    
+    #chat-input-area .card-footer {
+        padding: 0.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    #chat-input-area .detail-value {
+        font-size: 0.8rem;
+        margin-right: 1.5rem;
+    }
+    
+    #chat-input-area .copy-icon {
+        position: relative;
+        margin-left: 0.5rem;
+    }
+    
+    #chat-input-area .amount-display-large {
+        padding: 1rem 0;
+    }
+    
+    #chat-input-area .currency-symbol {
+        font-size: 1.25rem;
+    }
+    
+    #chat-input-area .amount-number {
+        font-size: 1.75rem;
+    }
+}
+
+/* Better button sizing in chat cards */
+#chat-input-area .complete-btn,
+#chat-input-area .confirm-btn,
+#chat-input-area .cancel-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+}
+
+/* Improved scrolling for long bank details */
+#chat-input-area .detail-row {
+    min-height: 2.5rem;
+    align-items: flex-start;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+
+#chat-input-area .detail-label {
+    padding-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+#chat-input-area .detail-value {
+    word-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+    padding-top: 0.125rem;
+}
+
+/* Important Notes */
+.important-note {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.note-title {
+    color: #f59e0b;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.note-text {
+    color: #fbbf24;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* Card Footer */
+.card-footer {
+    background: rgba(31, 41, 55, 0.5);
+    border-top: 1px solid rgba(75, 85, 99, 0.3);
+    padding: 1rem;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.confirm-btn,
+.complete-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-btn:hover,
+.complete-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.cancel-btn {
+    flex: 1;
+    background: rgba(75, 85, 99, 0.8);
+    color: #e5e7eb;
+    border: 1px solid rgba(107, 114, 128, 0.5);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: rgba(107, 114, 128, 0.8);
+    border-color: #9ca3af;
+}
+
+/* Copy Notification */
+.copy-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: copyNotificationShow 0.3s ease;
+}
+
+@keyframes copyNotificationShow {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+    .amount-number {
+        font-size: 2.5rem;
+    }
+    
+    .currency-symbol {
+        font-size: 1.5rem;
+    }
+    
+    .card-footer {
+        flex-direction: column;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .detail-value {
+        text-align: left;
+        margin-right: 0;
+        font-size: 0.875rem;
+    }
+    
+    .copy-icon {
+        position: static;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Chat Container Specific Overrides */
+#chat-input-area {
+    box-sizing: border-box;
+}
+
+#chat-input-area .bank-details-card,
+#chat-input-area .crypto-details-card {
+    max-height: 280px;
+    overflow-y: auto;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+#chat-input-area .card-body {
+    padding: 0.75rem;
+    box-sizing: border-box;
+}
+
+#chat-input-area .card-header {
+    padding: 0.75rem;
+    box-sizing: border-box;
+}
+
+#chat-input-area .card-footer {
+    padding: 0.75rem;
+    position: sticky;
+    bottom: 0;
+    background: rgba(31, 41, 55, 0.95);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+}
+
+/* Deposit Summary Card Styles */
+.deposit-summary-card {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.95) 0%, rgba(31, 41, 55, 0.95) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Chat Container Deposit Card Overrides */
+#chat-input-area .deposit-summary-card {
+    max-width: 100%;
+    margin: 0;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+#chat-input-area .amount-display-large {
+    padding: 1.5rem 0;
+}
+
+#chat-input-area .currency-symbol {
+    font-size: 1.5rem;
+}
+
+#chat-input-area .amount-number {
+    font-size: 2rem;
+}
+
+/* Additional fixes for bank details alignment */
+#chat-input-area .bank-details-card .detail-row {
+    flex-wrap: nowrap;
+    align-items: center;
+    position: relative;
+    padding-right: 2rem;
+}
+
+#chat-input-area .bank-details-card .detail-value {
+    flex: 1;
+    text-align: right;
+    margin-right: 0.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: calc(100% - 8rem);
+}
+
+#chat-input-area .bank-details-card .copy-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-shrink: 0;
+}
+
+/* Ensure proper container constraints */
+#chat-input-area {
+    overflow: hidden;
+}
+
+#chat-input-area .bank-details-card,
+#chat-input-area .crypto-details-card {
+    overflow: hidden;
+    position: relative;
+}
+
+#chat-input-area .card-body {
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+/* Responsive text sizing for better fit */
+#chat-input-area .detail-label {
+    min-width: 100px;
+    font-size: 0.8rem;
+}
+
+#chat-input-area .detail-value {
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+/* Better button layout */
+#chat-input-area .card-footer {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+#chat-input-area .complete-btn,
+#chat-input-area .cancel-btn {
+    flex: 1;
+    min-height: 2.5rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Compact Bank Details Design */
+.bank-details-compact {
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(100, 116, 139, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.compact-header {
+    background: rgba(51, 65, 85, 0.8);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.header-left i {
+    color: #60a5fa;
+    font-size: 1rem;
+}
+
+.header-right .currency-tag {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.compact-body {
+    padding: 0.75rem;
+    background: rgba(15, 23, 42, 0.4);
+}
+
+.info-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(100, 116, 139, 0.15);
+    gap: 1rem;
+}
+
+.info-line:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 500;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    color: #e2e8f0;
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.2s ease;
+    word-break: break-all;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-value:hover {
+    color: #60a5fa;
+}
+
+.info-value i {
+    opacity: 0.6;
+    font-size: 0.7rem;
+    transition: opacity 0.2s ease;
+}
+
+.info-value:hover i {
+    opacity: 1;
+}
+
+.compact-note {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.75rem;
+    margin: 0.75rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.compact-note i {
+    color: #60a5fa;
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+}
+
+.note-content {
+    color: #bfdbfe;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.compact-footer {
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(51, 65, 85, 0.5);
+    border-top: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.btn-primary {
+    flex: 1;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+    flex: 1;
+    background: rgba(75, 85, 99, 0.8);
+    color: #e5e7eb;
+    border: 1px solid rgba(107, 114, 128, 0.5);
+    padding: 0.625rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(107, 114, 128, 0.8);
+    border-color: #9ca3af;
+}
+
+/* QR Code Section for Crypto */
+.qr-section {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.qr-code {
+    background: rgba(75, 85, 99, 0.3);
+    border: 2px dashed rgba(100, 116, 139, 0.4);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9ca3af;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.qr-code:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+}
+
+.qr-code i {
+    font-size: 2rem;
+}
+
+.qr-code span {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Additional spacing for crypto wallet */
+.bank-details-compact .qr-section {
+    border-top: 1px solid rgba(100, 116, 139, 0.15);
+    border-bottom: 1px solid rgba(100, 116, 139, 0.15);
+    padding: 1rem 0;
+    margin: 0.75rem 0;
+}
+
+/* Responsive adjustments for compact design */
+@media (max-width: 640px) {
+    .compact-header {
+        padding: 0.75rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+    
+    .compact-body {
+        padding: 0.5rem;
+    }
+    
+    .info-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        padding: 0.4rem 0;
+    }
+    
+    .info-value {
+        text-align: left;
+        justify-content: flex-start;
+        font-size: 0.7rem;
+    }
+    
+    .compact-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .compact-note {
+        margin: 0.5rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Receipt Upload Styles */
+.upload-area {
+    transition: all 0.3s ease;
+}
+
+.upload-area.dragover {
+    border-color: var(--electric-blue) !important;
+    background-color: rgba(0, 191, 255, 0.1) !important;
+    transform: scale(1.02);
+}
+
+.upload-area:hover {
+    border-color: var(--electric-blue);
+    background-color: rgba(0, 191, 255, 0.05);
+}
+
+.file-preview-icon {
+    animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.submit-btn-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.submit-btn-enabled {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.upload-success {
+    animation: slideInUp 0.5s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* File type specific icons */
+.file-icon-image {
+    color: #10b981 !important;
+}
+
+.file-icon-pdf {
+    color: #ef4444 !important;
+}
+
+.file-icon-doc {
+    color: #3b82f6 !important;
+}
+
+/* Progress bar for upload */
+.upload-progress {
+    width: 100%;
+    height: 4px;
+    background-color: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.upload-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--electric-blue), var(--neon-purple));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+/* Notification styles */
+.notification {
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Active Level Glow Animation */
+@keyframes activeLevelGlow {
+    0% {
+        box-shadow: 0 0 30px rgba(34, 197, 94, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 0 40px rgba(34, 197, 94, 0.6), 0 12px 40px rgba(0, 0, 0, 0.4);
+        transform: scale(1.02);
+    }
+}
+
+/* Enhanced Level Card States */
+.level-card.unlocked-active {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%) !important;
+    border: 2px solid #22c55e !important;
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    animation: activeLevelGlow 3s ease-in-out infinite alternate !important;
+}
+
+.level-card.unlocked-inactive {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%) !important;
+    border: 1px solid #3b82f6 !important;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.level-card.locked-level {
+    background: rgba(107, 114, 128, 0.1) !important;
+    border: 1px solid #6b7280 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    opacity: 0.75 !important;
+}
+
+/* Level Card Status Indicators */
+.level-status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+.level-status-badge.active {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.level-status-badge.unlocked {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.level-status-badge.locked {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+}
+
+/* --- Market Page Enhancements --- */
+.market-filter-bar {
+    background: rgba(31, 41, 55, 0.7);
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px 0 rgba(0,191,255,0.08);
+    border: 1px solid rgba(59,130,246,0.15);
+}
+
+.shadow-green-400\/20 {
+    box-shadow: 0 4px 24px 0 rgba(34,197,94,0.20) !important;
+}
+.shadow-red-400\/20 {
+    box-shadow: 0 4px 24px 0 rgba(239,68,68,0.20) !important;
+}
+
+.send-money-btn {
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.15);
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.send-money-btn:hover {
+    background: linear-gradient(90deg, #059669 0%, #2563eb 100%);
+    box-shadow: 0 4px 16px rgba(59,130,246,0.18);
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* Card hover effect for market */
+.glass-card:hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 8px 32px 0 rgba(59,130,246,0.18) !important;
+    transform: translateY(-2px) scale(1.01);
+}
+
+/* Market stat icons */
+.market-stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+/* --- Live Transaction Queue Styles --- */
+#transaction-queue {
+    position: relative;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+    padding-bottom: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    height: 420px; /* Increased height for a bigger box */
+    overflow: hidden;
+}
+
+.transaction-inner {
+    will-change: transform;
+    transition: none;
+}
+
+/* Hide scrollbar for all browsers */
+#transaction-queue::-webkit-scrollbar {
+    display: none;
+}
+
+#transaction-queue {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.transaction-row {
+    background: rgba(17,24,39,0.92);
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px 0 rgba(59,130,246,0.06);
+    border: 1px solid rgba(59,130,246,0.10);
+    transition: box-shadow 0.3s, background 0.3s, border 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.transaction-row:hover {
+    background: rgba(34,197,94,0.10);
+    border-color: #22c55e;
+    box-shadow: 0 4px 24px 0 rgba(34,197,94,0.10);
+}
+
+.transaction-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.95em;
+    font-weight: 600;
+    border-radius: 0.75em;
+    padding: 0.2em 0.8em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    background: linear-gradient(90deg, #23272f 60%, #1e293b 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.transaction-status-badge.completed {
+    color: #22c55e;
+    background: linear-gradient(90deg, #22c55e22 60%, #1e293b 100%);
+    border-color: #22c55e44;
+}
+
+.transaction-status-badge.inprogress {
+    color: #facc15;
+    background: linear-gradient(90deg, #facc1522 60%, #1e293b 100%);
+    border-color: #facc1544;
+}
+
+.transaction-amount {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.01em;
+}
+
+.transaction-currency {
+    color: #60a5fa;
+    font-weight: 600;
+    margin-left: 0.2em;
+}
+
+.transaction-meta {
+    font-size: 0.93em;
+    color: #a1a1aa;
+    font-weight: 500;
+}
+
+/* Currency Rate Ticker Styles */
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+}
+#rate-ticker {
+  height: 40px;
+  background: rgba(31,41,55,0.85);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.ticker-inner {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  gap: 2.5rem;
+}
+.ticker-rate-up { color: #22d3ee; }
+.ticker-rate-down { color: #f87171; }
+
+/* Responsive ticker adjustments */
+@media (max-width: 640px) {
+  #rate-ticker {
+    height: 32px;
+    border-radius: 0.5rem;
+  }
+  .ticker-inner {
+    height: 32px;
+    font-size: 0.875rem;
+    gap: 1.5rem;
+  }
+  .animate-ticker {
+    animation: ticker 60s linear infinite; /* Slower on mobile for better readability */
+  }
+}
+
+/* Touch optimization and accessibility improvements */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+button:focus-visible, 
+.nav-item:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Glass card improvements for mobile */
+@media (max-width: 640px) {
+  .glass-card {
+    backdrop-filter: blur(8px) !important;
+    background: rgba(17, 24, 39, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+/* Improved scrolling for transaction queue on mobile */
+.transaction-inner {
+  scroll-behavior: smooth;
+}
+
+/* Better contrast for mobile readability */
+@media (max-width: 640px) {
+  .transaction-meta {
+    color: rgba(209, 213, 219, 0.9) !important;
+  }
+  
+  .transaction-currency {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Performance optimizations */
+.animate-ticker {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Text truncation and sizing utilities */
+.truncate-mobile {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 320px) {
+  /* Very small screens (iPhone SE, etc.) */
+  .text-responsive {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
+  
+  header h1 {
+    font-size: 0.875rem !important;
+  }
+  
+  .nav-item span {
+    font-size: 0.6rem !important;
+  }
+  
+  .transaction-amount {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .glass-card {
+    border-width: 0.5px;
+  }
+  
+  .nav-item {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .glass-card {
+    background: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .btn-primary,
+  .glass-card {
+    transition: none;
+  }
+  
+  .nav-item:active {
+    transform: none;
+  }
+}
+
+/* Focus improvements for accessibility */
+.nav-item:focus-visible,
+.btn-primary:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--electric-blue);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  nav,
+  header {
+    display: none !important;
+  }
+  
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .glass-card {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* Tasks page specific responsiveness */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Custom breakpoints */
+@media (max-width: 320px) {
+  /* Extra small phones */
+  .nav-item span {
+    font-size: 10px;
+  }
+  
+  .nav-item i {
+    font-size: 16px !important;
+  }
+  
+  .nav-item {
+    min-height: 48px !important;
+    padding: 8px 4px !important;
+  }
+  
+  main {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  .glass-card {
+    padding: 12px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  /* Small phones */
+  header h1 {
+    font-size: 16px !important;
+  }
+  
+  #balance-display {
+    font-size: 14px !important;
+  }
+  
+  .grid {
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Tasks page mobile adjustments */
+  .progress-bar {
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  .progress-fill {
+    border-radius: 3px;
+  }
+  
+  /* Modal improvements for mobile */
+  .glass-card form input,
+  .glass-card form select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 8px;
+  }
+  
+  .btn-primary {
+    min-height: 44px; /* Better touch target */
+    font-size: 14px;
+  }
+  
+  /* Bottom navigation improvements */
+  nav {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-item {
+    border-radius: 8px;
+    margin: 2px;
+    transition: all 0.2s ease;
+  }
+  
+  .nav-item:active {
+    transform: scale(0.95);
+    background: rgba(0, 191, 255, 0.15);
+  }
+}
+
+/* Landscape mode for phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  header {
+    height: 50px;
+  }
+  
+  main {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+  }
+  
+  nav {
+    height: 50px;
+  }
+  
+  .nav-item {
+    min-height: 40px !important;
+    padding: 4px 8px !important;
+  }
+  
+  .nav-item i {
+    font-size: 16px !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .nav-item span {
+    font-size: 10px !important;
+  }
+}
+
+/* History page specific responsiveness */
+.transaction-item {
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.transaction-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 191, 255, 0.1);
+}
+
+.transaction-item:active {
+  transform: scale(0.99);
+}
+
+/* History page mobile optimizations */
+@media (max-width: 640px) {
+  /* Transaction cards responsive adjustments */
+  .transaction-item {
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .transaction-item .flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 8px;
+  }
+  
+  .transaction-item .text-right {
+    text-align: left !important;
+    width: 100%;
+  }
+  
+  .transaction-item .text-lg {
+    font-size: 16px !important;
+  }
+  
+  .transaction-item .text-sm {
+    font-size: 12px !important;
+  }
+  
+  /* Filter controls improvements */
+  .glass-card select,
+  .glass-card input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+  }
+  
+  .glass-card input[type="date"] {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+  }
+  
+  /* Summary cards adjustments */
+  .grid.grid-cols-2 {
+    gap: 8px;
+  }
+  
+  .grid.grid-cols-2 > div {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Filter buttons stack on mobile */
+  .flex.flex-col.sm\\:flex-row button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices */
+  .transaction-item {
+    padding: 12px !important;
+  }
+  
+  .transaction-item .text-lg {
+    font-size: 14px !important;
+  }
+  
+  .transaction-item .text-sm {
+    font-size: 11px !important;
+  }
+  
+  /* Summary cards even more compact */
+  .grid.grid-cols-2 > div {
+    min-height: 70px;
+    padding: 8px !important;
+  }
+  
+  .grid.grid-cols-2 > div .text-lg {
+    font-size: 16px !important;
+  }
+  
+  .grid.grid-cols-2 > div .text-xs {
+    font-size: 10px !important;
+  }
+  
+  /* Header adjustments */
+  header h1 {
+    font-size: 14px !important;
+    line-height: 1.2;
+  }
+  
+  /* Filter section compact */
+  .glass-card {
+    padding: 12px !important;
+  }
+  
+  .glass-card label {
+    margin-bottom: 4px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  /* Very small devices */
+  .transaction-item {
+    padding: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .transaction-item .flex {
+    gap: 6px !important;
+  }
+  
+  /* More compact summary cards */
+  .grid.grid-cols-2 {
+    gap: 6px !important;
+  }
+  
+  .grid.grid-cols-2 > div {
+    min-height: 65px !important;
+    padding: 6px !important;
+  }
+}
+
+/* Landscape mode for history page */
+@media (max-height: 500px) and (orientation: landscape) {
+  .grid.grid-cols-2.sm\\:grid-cols-2.md\\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+  }
+  
+  .grid.grid-cols-2.sm\\:grid-cols-2.md\\:grid-cols-4 > div {
+    min-height: 60px !important;
+    padding: 8px !important;
+  }
+  
+  .grid.grid-cols-2.sm\\:grid-cols-2.md\\:grid-cols-4 > div .text-lg {
+    font-size: 14px !important;
+  }
+  
+  .grid.grid-cols-2.sm\\:grid-cols-2.md\\:grid-cols-4 > div .text-xs {
+    font-size: 10px !important;
+  }
+  
+  .transaction-item {
+    padding: 8px !important;
+    margin-bottom: 6px !important;
+  }
+  
+  .space-y-3 > * + * {
+    margin-top: 6px !important;
+  }
+}
+
+/* Touch improvements for history */
+@media (hover: none) and (pointer: coarse) {
+  .transaction-item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .transaction-item:active {
+    background: rgba(0, 191, 255, 0.05);
+    transform: scale(0.98);
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Dark mode specific adjustments for history */
+@media (prefers-color-scheme: dark) {
+  .transaction-item {
+    background: rgba(17, 24, 39, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-card select,
+  .glass-card input {
+    background: rgba(31, 41, 55, 0.9);
+    border-color: rgba(75, 85, 99, 0.8);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .transaction-item {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .glass-card {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Reduced motion for history */
+@media (prefers-reduced-motion: reduce) {
+  .transaction-item,
+  .transaction-item:hover,
+  .transaction-item:active {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Print styles for history */
+@media print {
+  .transaction-item {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    margin-bottom: 8px !important;
+  }
+  
+  .glass-card {
+    background: white !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+  }
+  
+  #load-more-container {
+    display: none !important;
+  }
+}
